@@ -8,7 +8,7 @@ var session = require('express-session');
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
 
-//GitHub認証
+//GitHub認証の設定
 var GITHUB_CLIENT_ID = '8dd10008cb1d6d499d5a';
 var GITHUB_CLIENT_SECRET = 'e45da375f56196e44e9dad0155bf276c6729c612';
 
@@ -57,6 +57,17 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+
+// GitHub認証へのアクセス
+app.get('/auth/github',
+  passport.authenticate('github', { scope: ['user:email'] }),
+  function (req, res) {
+});
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function (req, res) {
+    res.redirect('/');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
