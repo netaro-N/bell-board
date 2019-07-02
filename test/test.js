@@ -30,3 +30,12 @@ describe('"/login" Routerオブジェクトのテスト', () => {
   });
 
 });
+
+describe('"/logout" Routerオブジェクトのテスト', () => {
+  it('/にリダイレクトされる', (done) => {
+    request(app)
+      .get('/logout')
+      .expect('Location', '/')
+      .expect(302, done)
+  });
+});
