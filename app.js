@@ -7,10 +7,16 @@ var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
+//var config = require('./config');
 
-//GitHub認証の設定
+//GitHub認証の準備
 var GITHUB_CLIENT_ID = '8dd10008cb1d6d499d5a';
 var GITHUB_CLIENT_SECRET = 'e45da375f56196e44e9dad0155bf276c6729c612';
+
+//Twitter認証の準備
+var TWITTER_CONSUMER_KEY = '2UfTOCrmlQsfuWrRSpCrD9TVh';
+var TWITTER_CONSUMER_SECRET = '69eRfaojgA8DTNgpVDnfCUftnQAc5TVBAiXym1qoycAGqgnDB9';
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -20,6 +26,7 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+//GitHubでログインします
 passport.use(new GitHubStrategy({
   clientID: GITHUB_CLIENT_ID,
   clientSecret: GITHUB_CLIENT_SECRET,
@@ -32,6 +39,21 @@ passport.use(new GitHubStrategy({
   }
 ));
 
+//Twitterでログインします
+passport.use(new TwitterStrategy({
+  consumerKey: TWITTER_CONSUMER_KEY,
+  consumerSecret: TWITTER_CONSUMER_SECRET,
+  callbackURL: 'http://example.net:8000/auth/twitter/callback'
+},
+function(token, tokenSecret, profile, done) {
+  process.nextTick(function () {
+      return done(null, profile);
+    });
+  }
+));
+
+
+//ルーターオブジェクトの登録
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
@@ -54,6 +76,7 @@ app.use(session({ secret: '5b04d0ad49a2c506', resave: false, saveUninitialized: 
 app.use(passport.initialize());
 app.use(passport.session());
 
+//ルーターオブジェクトの利用
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
@@ -66,6 +89,17 @@ app.get('/auth/github',
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   function (req, res) {
+    res.redirect('/');
+});
+
+// Twitter認証へのアクセス
+app.get('/auth/twitter',
+  passport.authenticate('twitter', { scope: ['user:email'] }),
+  function (req, res){
+});
+app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: '/' }),
+  function(req, res) {
     res.redirect('/');
 });
 

@@ -16,6 +16,7 @@
     "morgan": "~1.9.1",
     "passport": "^0.4.0",
     "passport-github2": "^0.1.11",
+    "passport-twitter": "^1.0.4",
     "pug": "2.0.3"
   },
   "devDependencies": {
