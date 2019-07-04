@@ -8,15 +8,7 @@ var session = require('express-session');
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
-//var config = require('./config');
-
-//GitHub認証の準備
-var GITHUB_CLIENT_ID = '8dd10008cb1d6d499d5a';
-var GITHUB_CLIENT_SECRET = 'e45da375f56196e44e9dad0155bf276c6729c612';
-
-//Twitter認証の準備
-var TWITTER_CONSUMER_KEY = '2UfTOCrmlQsfuWrRSpCrD9TVh';
-var TWITTER_CONSUMER_SECRET = '69eRfaojgA8DTNgpVDnfCUftnQAc5TVBAiXym1qoycAGqgnDB9';
+var config = require('./config.js');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -28,8 +20,8 @@ passport.deserializeUser(function (obj, done) {
 
 //GitHubでログインします
 passport.use(new GitHubStrategy({
-  clientID: GITHUB_CLIENT_ID,
-  clientSecret: GITHUB_CLIENT_SECRET,
+  clientID: config.github.GITHUB_CLIENT_ID,
+  clientSecret: config.github.GITHUB_CLIENT_SECRET,
   callbackURL: 'http://example.net:8000/auth/github/callback'
 },
   function (accessToken, refreshToken, profile, done) {
@@ -41,8 +33,8 @@ passport.use(new GitHubStrategy({
 
 //Twitterでログインします
 passport.use(new TwitterStrategy({
-  consumerKey: TWITTER_CONSUMER_KEY,
-  consumerSecret: TWITTER_CONSUMER_SECRET,
+  consumerKey: config.twitter.TWITTER_CONSUMER_KEY,
+  consumerSecret: config.twitter.TWITTER_CONSUMER_SECRET,
   callbackURL: 'http://example.net:8000/auth/twitter/callback'
 },
 function(token, tokenSecret, profile, done) {
