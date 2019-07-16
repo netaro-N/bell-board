@@ -132,6 +132,7 @@
 | /fixtures/:fixtureId      | GET      | 個別日程/コメントページ         |
 | /fixtures/:fixtureId/edit | GET      | 日程編集ページ                  |
 | /fixtures/new             | GET      | 日程作成ページ                  |
+| /manage                   | GET      | 管理人ページ                    |
 | /login                    | GET      | ログイン                        |
 | /logout                   | GET      | ログアウト                      |
 
@@ -164,15 +165,15 @@ Web フレームワークの Express を利用する前提に立つことでず�
 URL 設計にそって、 /routes ディレクトリ以下の Router モジュールを以下のように用意すればよいでしょう。
 データモデルやデータストアへの永続化に関しては、 /models というディレクトリを作成し、それぞれのエンティティごとにファイルを定義します。
 ## 7.1：Router モジュール一覧
-| ファイル名   | 責務  |
-| ------- | --- |
-| routes/ |     |
-| routes/ |     |
-| routes/ |     |
-| routes/ |     |
-| routes/ |     |
-| routes/ |     |
-|         |     |
+| ファイル名                 | 責務           |
+| --------------------- | ------------ |
+| routes/login.js       | ログイン処理       |
+| routes/logout.js      | ログアウト処理      |
+| routes/fixtures.js    | 日程に関連する処理    |
+| routes/insert.js      | ファイル挿入に関する処理 |
+| routes/posts.js       | 投稿に関する処理     |
+| routes/evaluations.js | 評価に関する処理     |
+|                       |              |
 このように責務を分割しましょう。
 
 それぞれの責務は独立性と凝集性が高く、分離しやすいため、上記のようなモジュール構成で作ることがより効率的に開発することができます。
@@ -182,15 +183,15 @@ URL 設計にそって、 /routes ディレクトリ以下の Router モジュ�
 
 ## 7.2：データモデルモジュール一覧
 
-| ファイル名   | 責務  |
-| ------- | --- |
-| models/ |     |
-| models/ |     |
-| models/ |     |
-| models/ |     |
-| models/ |     |
-| models/ |     |
-|         |     |
+| ファイル名 | 責務 |
+| ---------- | ---- |
+| models/    |      |
+| models/    |      |
+| models/    |      |
+| models/    |      |
+| models/    |      |
+| models/    |      |
+|            |      |
 
 今回は永続化には、 sequelize というライブラリを用います。
 上記の表では、データモデルで決定したエンティティの設計に沿ってモジュール分割を行っています。
