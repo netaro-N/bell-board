@@ -1,10 +1,10 @@
 # 各データモデル
 
 ## user のデータモデリング
-| 属性名      | 形式  | 内容                          |
-| -------- | --- | --------------------------- |
-| userId   | 文字列 | GitHub/Twitter のユーザー ID、主キー |
-| username | 文字列 | GitHub のユーザー名               |
+| 属性名      | 形式  | 内容                                   |
+| -------- | --- | ------------------------------------ |
+| userId   | 文字列 | GitHub/Twitter のユーザー ID、主キー          |
+| username | 文字列 | GitHub のusername／TwitterのdisplayName |
 
 ## post のデータモデリング
 | 属性名 | 形式  | 内容  |
