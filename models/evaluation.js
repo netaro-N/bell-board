@@ -19,7 +19,7 @@ const Evaluation = loader.database.define('evaluations', {
     defaultValue: false
   },
   fixtureId: { // 日程ID はインデックスとして利用するので外部キーにしない
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false,
     defaultValue: false
   }

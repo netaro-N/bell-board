@@ -9,7 +9,7 @@ const Post = loader.database.define('posts', {
     primaryKey: true
   },
   fixtureId: { // 日程ID はインデックスとして利用するので外部キーにしない
-    type:Sequelize.INTEGER,
+    type:Sequelize.STRING,
     allowNull: false
   },
   postedBy: { // foreignkey
