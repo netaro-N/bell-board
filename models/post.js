@@ -3,16 +3,16 @@ const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const Post = loader.database.define('posts', {
-  postId: {
+  postId: { // foreignkey
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  fixtureId: {
+  fixtureId: { // 日程ID はインデックスとして利用するので外部キーにしない
     type:Sequelize.INTEGER,
     allowNull: false
   },
-  postedBy: {
+  postedBy: { // foreignkey
     type:Sequelize.STRING,
     allowNull: false
   },
