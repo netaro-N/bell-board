@@ -7,6 +7,7 @@
 | -------- | --- | ------------------------------------ |
 | userId   | 文字列 | GitHub/Twitter のユーザー ID、主キー          |
 | username | 文字列 | GitHub のusername／TwitterのdisplayName |
+| thumbUrl | 文字列 | アカウントのサムネイル画像                        |
 
 ## post のデータモデリング
 | 属性名       | 形式  | 内容          |
