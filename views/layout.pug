@@ -11,6 +11,7 @@ html
           if user
             li 
               a(href="/logout") #{user.username} をログアウト
+            li displaynameは #{user.displayName}
           else
             li
               a(href="/login") ログイン画面へ

@@ -33,7 +33,14 @@ passport.use(new GitHubStrategy({
 },
   function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      return done(null, profile);
+      const userId = profile.provider + profile.id;  // サロゲートキー
+      User.upsert({
+        userId: userId,
+        username: profile.username,
+        thumbUrl: profile.photos[0].value
+      }).then(() => {
+        done(null, profile);
+      });
     });
   }
 ));
@@ -46,7 +53,14 @@ passport.use(new TwitterStrategy({
 },
 function(token, tokenSecret, profile, done) {
   process.nextTick(function () {
-      return done(null, profile);
+    const userId = profile.provider+profile.id  //サロゲートキー
+    User.upsert({
+      userId: userId,
+      username: profile.username,
+      thumbUrl: profile.photos[0].value
+    }).then(() => {
+      done(null, profile);
+    });
     });
   }
 ));
