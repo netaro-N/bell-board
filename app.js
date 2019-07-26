@@ -10,12 +10,19 @@ var GitHubStrategy = require('passport-github2').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var config = require('./config.js');
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
+// モデルの読み込み
+var User = require('./models/user');
+var Post = require('./models/post');
+var Evaluation = require('./models/evaluation');
+var Fixture = require('./models/fixture');
+Fixture.sync();
+User.sync().then(() => {
+  Evaluation.belongsTo(User, { foreignKey: 'userId' });
+  Post.belongsTo(User, { foreignKey: 'postedBy' });
+  Post.sync().then(() => {
+    Evaluation.belongsTo(Post, { foreignKey: 'postId' });
+    Evaluation.sync();
+  });
 });
 
 //GitHubでログインします
@@ -44,6 +51,13 @@ function(token, tokenSecret, profile, done) {
   }
 ));
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
 
 //ルーターオブジェクトの登録
 var indexRouter = require('./routes/index');
