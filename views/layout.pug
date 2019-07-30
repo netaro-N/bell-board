@@ -4,15 +4,28 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    nav
-      div BellBoardへようこそ
-      div
-        ul
-          if user
-            li 
-              a(href="/logout") #{user.username} をログアウト
-            li displaynameは #{user.displayName}
-          else
-            li
-              a(href="/login") ログイン画面へ
+    block header
+      header
+        div.headerInner
+          h1.logo
+            a(href="/") 本来はロゴimgが入ります
+          nav
+            ul
+              li
+                a(href="/") 試合一覧
+              li
+                a(href="/") 移籍情報
+              li
+                a(href="/") チーム情報
+              if user
+                li 
+                  a(href="/logout") #{user.username} をログアウト
+                li displaynameは #{user.displayName}
+              else
+                li
+                  a(href="/login") ログイン画面へ
     block content
+    block footer
+      footer
+        div.footerInner
+          small &copy; Bell-Board 2019
