@@ -118,30 +118,30 @@
 これらを踏まえて、メソッドと URL のパス、内容をまとめると以下の表のようになります。
 
 # ５：ページのURL一覧
-| パス                      | メソッド | ページ内容                      |
-| ------------------------- | -------- | ------------------------------- |
-| /                         | GET      | トップ/最新試合／コメントページ |
-| /fixtures                 | GET      | 試合一覧ページ                  |
-| /fixtures/:fixtureId      | GET      | 個別日程/コメントページ         |
-| /fixtures/:fixtureId/edit | GET      | 日程編集ページ                  |
-| /fixtures/new             | GET      | 日程作成ページ                  |
-| /manage                   | GET      | 管理人ページ                    |
-| /login                    | GET      | ログイン                        |
-| /logout                   | GET      | ログアウト                      |
+| パス                   | メソッド | ページ内容            |
+| -------------------- | ---- | ---------------- |
+| /                    | GET  | トップ/最新試合／コメントページ |
+| /fixtures            | GET  | 試合一覧ページ          |
+| /fixtures/:fixtureId | GET  | 個別日程/コメントページ     |
+| /manage              | GET  | 管理人ページ           |
+| /manage/:fixtureId/  | GET  | 日程編集ページ          |
+| /manage/new          | GET  | 日程作成ページ          |
+| /login               | GET  | ログイン             |
+| /logout              | GET  | ログアウト            |
 
 表のパスにでてきている`:fixtureId` は、日程エンティティの主キーとします。
 続けて、ページではなく、フォームの投稿先やAjaxで利用するWebAPI の URLも設計します。
 
 # ６：Web API の URL一覧
-| パス                                             | メソッド | 処理内容       | 利用方法 |
-| ------------------------------------------------ | -------- | -------------- | -------- |
-| /insert                                          | POST     | 日程挿入       | AJAX     |
-| /fixtures                                        | POST     | 日程作成       | フォーム |
-| /fixtures/:fixtureId?edit=1                      | POST     | 日程編集       | フォーム |
-| /fixtures/:fixtureId?delete=1                    | POST     | 日程削除       | フォーム |
-| /fixtures/:fixtureId/posts/                      | POST     | コメント       | フォーム |
-| /fixtures/:fixtureId/posts/:postId?delete=1      | POST     | コメントの削除 | フォーム |
-| /fixtures/:fixtureId/posts/:postId/users/:userId | POST     | イイね         | AJAX     |
+| パス                                               | メソッド | 処理内容    | 利用方法 |
+| ------------------------------------------------ | ---- | ------- | ---- |
+| /insert                                          | POST | 日程挿入    | AJAX |
+| /manage/new                                      | POST | 日程作成    | フォーム |
+| /manage/:fixtureId?edit=1                        | POST | 日程編集    | フォーム |
+| /manage/:fixtureId?delete=1                      | POST | 日程削除    | フォーム |
+| /fixtures/:fixtureId/posts/                      | POST | コメント    | フォーム |
+| /fixtures/:fixtureId/posts/:postId?delete=1      | POST | コメントの削除 | フォーム |
+| /fixtures/:fixtureId/posts/:postId/users/:userId | POST | イイね     | AJAX |
 
 * メソッドを全て POST にしました。
 * :userId は、ユーザーエンティティの主キー、 /:postId はコメントエンティティの主キーとします。
