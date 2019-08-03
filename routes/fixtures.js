@@ -12,7 +12,7 @@ router.get('/:fixtureId', function(req, res, next) {
   res.render('match', { 
     user:req.user,
     ID:req.params.fixtureId
-  })
-})
+  });
+});
 
 module.exports = router;
