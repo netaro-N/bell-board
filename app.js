@@ -101,7 +101,7 @@ app.use(passport.session());
 //ルーターオブジェクトの利用
 app.use('/', indexRouter);
 app.use('/fixtures', fixturesRouter);
-// app.use('/manage', manageRouter);
+app.use('/manage', manageRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 
