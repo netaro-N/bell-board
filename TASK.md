@@ -39,3 +39,4 @@
   2. sequelize
   3. pg
   4. pg-hstore 
+  5. csv-parse

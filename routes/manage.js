@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
+const csvParse = require('csv-parse/lib/sync'); // requiring sync module 同期でパースする
 
 /* GET manage page. */
 router.get('/', function(req, res, next) {
