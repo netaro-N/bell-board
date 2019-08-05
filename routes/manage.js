@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const fs = require('fs');
 
 /* GET manage page. */
 router.get('/', function(req, res, next) {
@@ -22,4 +23,13 @@ router.get('/:fixtureId', function(req, res, next) {
     ID:req.params.fixtureId
   });
 });
+
+/* POST csv file */
+router.post('', (req, res, next) => {
+  // ここに csvParse 実装
+
+  // ここにデータベースへ保存実装
+
+})
+
 module.exports = router;
