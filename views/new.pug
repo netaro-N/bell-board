@@ -2,3 +2,38 @@ extends layout
 
 block content
   main ここは新規作成ページ
+    form(method="post", action="/manage/new")
+      div.form-group.row
+        label(for="fixtureId").col-md-2.col-form-label fixtureId
+        div.col-sm-8.col-10
+          input(type="text" name="fixtureId" autocomplete="on" list="ID")#fixtureId.form-control
+          datalist(id="ID")
+            option(value="J1")
+            option(value="J-Cup")
+            option(value="E-Cup")
+      div.form-group.row
+        label(for="fixtureDate").col-md-2.col-form-label fixtureDate
+        div.col-sm-8.col-10
+          input(type="datetime-local" name="fixtureDate")#fixtureDate.form-control
+      div.form-group.row
+        label(for="fixtureSort").col-md-2.col-form-label fixtureSort
+        div.col-sm-8.col-10
+          input(type="text" size="50" name="fixtureSort" autocomplete="on" list="SORT")#fixtureSort.form-control
+          datalist(id="SORT")
+            option(value="J1-第")
+            option(value="ルヴァンカップ")
+            option(value="天皇杯")
+      div.form-group.row
+        label(for="homeTeam").col-md-2.col-form-label homeTeam
+        div.col-sm-8.col-10
+          input(type="text" name="homeTeam" autocomplete="on" list="HORM")#homeTeam.form-control
+          datalist(id="HORM")
+            option(value="湘南ベルマーレ")
+      div.form-group.row
+        label(for="awayTeam").col-md-2.col-form-label awayTeam
+        div.col-sm-8.col-10
+          input(type="text" name="awayTeam" autocomplete="on" list="AWAY")#awayTeam.form-control
+          datalist(id="AWAY")
+            option(value="湘南ベルマーレ")
+      div
+        button(type="submit").btn.btn-primary 以上の内容で作成する
