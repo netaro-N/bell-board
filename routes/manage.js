@@ -28,12 +28,27 @@ router.get('/:fixtureId', function(req, res, next) {
   });
 });
 
+/* POST 新規作成 */
+router.post('/new', (req, res, next) => {
+  // ここにデータベースへ保存実装
+
+})
+
 /* POST csv file */
-router.post('', (req, res, next) => {
+router.post('/insert', (req, res, next) => {
   // ここに csvParse 実装
 
   // ここにデータベースへ保存実装
 
 })
+
+/* POST edit & delete */
+router.post('/:fixtureId', (req, res, next) => {
+  // ここに csvParse 実装
+
+  // ここにデータベースへ保存実装
+
+})
+
 
 module.exports = router;
