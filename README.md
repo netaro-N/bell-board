@@ -135,7 +135,7 @@
 # ６：Web API の URL一覧
 | パス                                               | メソッド | 処理内容    | 利用方法 |
 | ------------------------------------------------ | ---- | ------- | ---- |
-| /insert                                          | POST | 日程挿入    | AJAX |
+| /manage/insert                                   | POST | 日程挿入    | AJAX |
 | /manage/new                                      | POST | 日程作成    | フォーム |
 | /manage/:fixtureId?edit=1                        | POST | 日程編集    | フォーム |
 | /manage/:fixtureId?delete=1                      | POST | 日程削除    | フォーム |
