@@ -49,7 +49,7 @@ router.post('/new', (req, res, next) => {
       homeScore: '',
       awayScore: ''
     });
-    res.redirect('/new');
+    res.redirect('/manage/new');
   });
 });
 
