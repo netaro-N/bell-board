@@ -2,4 +2,13 @@ extends layout
 
 block content
   main
-    div 試合情報一覧がここに表示
+    div title=#{title}
+    table
+      each f in fixtures
+        tr
+          th #{f.formattedDate}
+          td #{f.fixtureSort}
+          td #{f.homeTeam}
+          td
+            a(href=`/${f.fixtureId}`) #{f.homeScore} - #{f.awayScore}
+          td #{f.awayTeam}
