@@ -41,3 +41,9 @@
   4. pg-hstore 
   5. csv-parse
   6. moment-timesone
+
+## 大会の表記
+* Jリーグ　＝　J1- , J2-
+* ルヴァンカップ　＝　
+* 天皇杯　＝　
+* ACL　＝　ACL-
