@@ -3,3 +3,78 @@ extends layout
 block content
   main ここは編集ページ
     div 編集予定の日程ID は⇒ #{ID}
+    a(href=`/${fixture.fixtureId}`) 予定に戻る
+    form(method="post", action=`/manage/${fixture.fixtureId}?delete=1`)
+      button(type="submit" data-toggle="confirmation"
+             data-btn-ok-label="削除する" data-btn-ok-class="btn-danger"
+             data-btn-cancel-label="しない"
+             data-title="本当に削除しますか？").btn.btn-danger この予定を削除する
+    form(method="post", action=`/manage/${fixture.fixtureId}?edit=1`)
+      div.form-row
+        div.col-6.m-1
+          label(for="fixtureDate").mb-0 fixtureDate
+          input(type="datetime-local" name="fixtureDate" value=fixture.formattedDate)#fixtureDate.form-control
+      div.form-row
+        div.col-6.m-1
+          label(for="fixtureSort").mb-0 fixtureSort
+          input(type="text" size="50" name="fixtureSort" autocomplete="on" list="SORT" value=fixture.fixtureSort)#fixtureSort.form-control
+          datalist(id="SORT")
+            option(value="J1-第節")
+            option(value="ルヴァンカップ-")
+            option(value="天皇杯-")
+      div.form-row
+        div.col-6.m-1
+          label(for="homeTeam").mb-0 homeTeam
+          input(type="text" name="homeTeam" autocomplete="on" list="HORM" value=fixture.homeTeam)#homeTeam.form-control
+          datalist(id="HORM")
+            option(value="湘南")
+            option(value="磐田")
+            option(value="浦和")
+            option(value="FC東京")
+            option(value="大分")
+            option(value="鹿島")
+            option(value="川崎Ｆ")
+            option(value="Ｇ大阪")
+            option(value="神戸")
+            option(value="札幌")
+            option(value="清水")
+            option(value="Ｃ大阪")
+            option(value="仙台")
+            option(value="鳥栖")
+            option(value="名古屋")
+            option(value="広島")
+            option(value="松本")
+            option(value="横浜FM")
+      div.form-row
+        div.col-6.m-1
+          label(for="awayTeam").mb-0 awayTeam
+          input(type="text" name="awayTeam" autocomplete="on" list="AWAY" value=fixture.awayTeam)#awayTeam.form-control
+          datalist(id="AWAY")
+            option(value="湘南")
+            option(value="磐田")
+            option(value="浦和")
+            option(value="FC東京")
+            option(value="大分")
+            option(value="鹿島")
+            option(value="川崎Ｆ")
+            option(value="Ｇ大阪")
+            option(value="神戸")
+            option(value="札幌")
+            option(value="清水")
+            option(value="Ｃ大阪")
+            option(value="仙台")
+            option(value="鳥栖")
+            option(value="名古屋")
+            option(value="広島")
+            option(value="松本")
+            option(value="横浜FM")
+      div.form-row
+        div.col-6.m-1
+          label(for="homeScore").mb-0 homeScore
+          input(type="text" name="homeScore" value=fixture.homeScore)#homeScore.form-control
+      div.form-row
+        div.col-6.m-1
+          label(for="awayScore").mb-0 awayScore
+          input(type="text" name="awayScore" value=fixture.awayScore)#awayScore.form-control
+      div
+        button(type="submit").btn.btn-primary 日程を編集する
