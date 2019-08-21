@@ -21,11 +21,33 @@ router.get('/new', function(req, res, next) {
 });
 
 /* GET edit page */
-router.get('/:fixtureId', function(req, res, next) {
-  //　ここに、個別編集ページへの実装をする
-  res.render('edit', { 
-    user:req.user,
-    ID:req.params.fixtureId
+// router.get('/:fixtureId', function(req, res, next) {
+//   //　ここに、個別編集ページへの実装をする
+//   res.render('edit', { 
+//     user:req.user,
+//     ID:req.params.fixtureId
+//   });
+// });
+router.get('/:fixtureId', function (req, res, next) {
+  Fixture.findOne({
+    where: {
+      fixtureId: req.params.fixtureId
+    }
+  }).then((fixture) => {
+    if (fixture) {
+      //YYYY-MM-DDThh:mm:ss
+      fixture.formattedDate = moment(fixture.fixtureDate).format('YYYY-MM-DDTHH:mm');
+      console.log(fixture.formattedDate);
+      res.render('edit', {
+        title: '編集ページです',
+        user:req.user,
+        fixture: fixture
+      });
+    } else {
+      const err = new Error('試合が無いので編集できません');
+      err.status = 404;
+      next(err);
+    }
   });
 });
 

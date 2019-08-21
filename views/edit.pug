@@ -1,8 +1,9 @@
 extends layout
 
 block content
-  main ここは編集ページ
-    div 編集予定の日程ID は⇒ #{ID}
+  main 
+    title= title 
+    div 編集予定の日程ID は⇒ #{fixture.fixtureId}
     a(href=`/${fixture.fixtureId}`) 予定に戻る
     form(method="post", action=`/manage/${fixture.fixtureId}?delete=1`)
       button(type="submit" data-toggle="confirmation"
