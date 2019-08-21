@@ -6,6 +6,7 @@ block content
     div 編集予定の日程ID は⇒ #{fixture.fixtureId}
     a(href=`/${fixture.fixtureId}`) 予定に戻る
     form(method="post", action=`/manage/${fixture.fixtureId}?delete=1`)
+      //- button(type="submit" onclick="return confirm('本当に削除しますか？');") この予定を削除する
       button(type="submit" data-toggle="confirmation"
              data-btn-ok-label="削除する" data-btn-ok-class="btn-danger"
              data-btn-cancel-label="しない"
