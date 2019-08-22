@@ -21,13 +21,6 @@ router.get('/new', function(req, res, next) {
 });
 
 /* GET edit page */
-// router.get('/:fixtureId', function(req, res, next) {
-//   //　ここに、個別編集ページへの実装をする
-//   res.render('edit', { 
-//     user:req.user,
-//     ID:req.params.fixtureId
-//   });
-// });
 router.get('/:fixtureId', function (req, res, next) {
   Fixture.findOne({
     where: {
@@ -85,11 +78,50 @@ router.post('/insert', (req, res, next) => {
 
 /* POST edit & delete */
 router.post('/:fixtureId', (req, res, next) => {
-  // ここに csvParse 実装
-
-  // ここにデータベースへ保存実装
-
+  const fixtureDate = new Date(req.body.fixtureDate);
+  const formattedDate = moment(fixtureDate).format("YYYY/MM/DD HH:mm");
+  console.log(fixtureDate+' → '+formattedDate);
+  console.log('確認しました');
+  Fixture.findOne({
+    where: {
+      fixtureId: req.params.fixtureId
+    }
+  }).then((f) => {
+    if (f) {
+      if (parseInt(req.query.edit) === 1){
+      f.update({
+        fixtureId: f.fixtureId,
+        fixtureDate: formattedDate,
+        fixtureSort: req.body.fixtureSort,
+        homeTeam: req.body.homeTeam,
+        awayTeam: req.body.awayTeam,
+        homeScore: req.body.homeScore,
+        awayScore: req.body.awayScore
+      }).then((fixture) => {
+        res.redirect('/' + fixture.fixtureId);
+      });
+    } else if (parseInt(req.query.delete) ===1 ){
+      console.log('get!!' + req.params.fixtureId);
+      deleteFixture(req.params.fixtureId, () => { // １：ID　２：done関数
+        res.redirect('/');
+      });
+    } else {
+      const err = new Error('不正なリクエストです');
+      err.status = 400;
+      next(err);
+    }
+  }else {
+      const err = new Error('指定された予定がありません');
+      err.status = 404;
+      next(err);
+    }
+  });
 })
 
+function deleteFixture (fixtureId, done, err) {
+  Fixture.findByPk(fixtureId).then((f) => { f.destroy(); });
+  if (err) return done(err);
+  done();
+}
 
 module.exports = router;
