@@ -11,6 +11,22 @@ const csvParse = require('csv-parse/lib/sync'); // requiring sync module 同期�
 router.get('/', function(req, res, next) {
   res.render('manage', { user:req.user });
 });
+router.get('/', function (req, res, next) {
+  Fixture.findAll({
+    order: [['"fixtureId"', 'ASC']]
+  }).then((fixtures) => {
+    const ID = [];
+    fixtures.forEach((f) => {
+      ID.push(f.fixtureId);
+    });
+    res.render('manage', {
+      title: '管理人ページ',
+      user: req.user,
+      ID: ID
+    });
+  });
+});
+
 
 /* GET new page. */
 router.get('/new', function(req, res, next) {
