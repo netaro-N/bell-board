@@ -8,9 +8,6 @@ const Fixture = require('../models/fixture');
 const csvParse = require('csv-parse/lib/sync'); // requiring sync module 同期でパースする
 
 /* GET manage page. */
-router.get('/', function(req, res, next) {
-  res.render('manage', { user:req.user });
-});
 router.get('/', function (req, res, next) {
   Fixture.findAll({
     order: [['"fixtureId"', 'ASC']]
