@@ -14,7 +14,8 @@ router.get('/', function(req, res, next) {
       });
       res.render('fixtures', {
         title: '試合一覧ページ',
-        fixtures: fixtures
+        fixtures: fixtures,
+        user: req.user
       });
     } else {
       const err = new Error('試合一覧がございません。申し訳ございません。');
@@ -25,12 +26,35 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET 個別ページ */
-router.get('/:fixtureId', function(req, res, next) {
-  //　ここに、個別ページへの実装をする
-  res.render('match', { 
-    user:req.user,
-    ID:req.params.fixtureId
-  });
+router.get('/:fixtureId', function (req, res, next) {
+  Fixture.findOne({
+    where: {
+      fixtureId: req.params.fixtureId
+    }
+  }).then((fixture) => {
+    if (fixture) {
+      let fixtureTitle = '';
+      const nowTime = new Date();
+      nowTime.setHours(nowTime.getHours() - 5);
+      const japanTimeminus5 = moment(nowTime).tz('Asia/Tokyo').format("YYYY/MM/DD HH:mm");
+      fixture.formattedDate = moment(fixture.fixtureDate).format('YYYY/MM/DD (ddd) HH:mm');
+      const fixtureStatus = moment(new Date(fixture.formattedDate)).isBefore(new Date(japanTimeminus5));
+      if (fixtureStatus) {
+        fixtureTitle = '試合終了'
+      }else {
+        fixtureTitle = '試合前'
+      }
+      res.render('fixture', {
+        title: fixtureTitle,
+        fixture: fixture,
+        user: req.user
+      });
+    } else {
+      const err = new Error('指定された試合は見つかりません');
+      err.status = 404;
+      next(err);
+    }
+  })
 });
 
 module.exports = router;
