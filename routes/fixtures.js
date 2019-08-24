@@ -44,7 +44,7 @@ router.get('/:fixtureId', function (req, res, next) {
       }else {
         fixtureTitle = '試合前'
       }
-      res.render('fixture', {
+      res.render('match', {
         title: fixtureTitle,
         fixture: fixture,
         user: req.user
