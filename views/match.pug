@@ -3,4 +3,18 @@ extends layout
 block content
   main
     div.mainInner ここに試合情報
-    div ここは個別ページです。titleは⇒#{title}
+    p #{title}
+    div
+      a(href=`/${fixture.fixtureDate}/last`) 前の試合
+      a(href=`/${fixture.fixtureDate}/last`) ◀︎
+    div
+      a(href=`/${fixture.fixtureDate}/next`) 次の試合
+      a(href=`/${fixture.fixtureDate}/next`) ▶︎
+      div
+        div #{fixture.fixtureSort}
+        div 日本時間 : #{fixture.formattedDate}〜KO
+        div #{fixture.homeTeam}
+        div #{fixture.homeScore} - #{fixture.awayScore}
+        div #{fixture.awayTeam}
+    div
+      a(href=`/manage/${fixture.fixtureId}`) この予定を編集する
