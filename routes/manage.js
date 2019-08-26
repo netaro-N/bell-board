@@ -87,7 +87,12 @@ router.post('/insert', (req, res, next) => {
 
   // ここにデータベースへ保存実装
 
-})
+});
+
+/* POST 編集ページへリダイレクト */
+router.post('/edit', function (req, res, next) {
+  res.redirect(`/manage/${req.body.fixtureId}`);
+});
 
 /* POST edit & delete */
 router.post('/:fixtureId', (req, res, next) => {

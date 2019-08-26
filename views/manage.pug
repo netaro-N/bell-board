@@ -4,7 +4,7 @@ block content
   main ここは管理人ページ（後にURL変更）
     div
       a(href="/manage/new") 新規ページ
-    form(method="post", action="")
+    form(method="post", action="/manage/edit")
       label(for="fixtureId") fixtureId
       input(type="text" name="fixtureId" autocomplete="on" list="ID" placeholder="fixtureId" require)#fixtureId
       datalist(id="ID")
