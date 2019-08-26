@@ -133,15 +133,16 @@
 続けて、ページではなく、フォームの投稿先やAjaxで利用するWebAPI の URLも設計します。
 
 # ６：Web API の URL一覧
-| パス                                               | メソッド | 処理内容    | 利用方法 |
-| ------------------------------------------------ | ---- | ------- | ---- |
-| /manage/insert                                   | POST | 日程挿入    | AJAX |
-| /manage/new                                      | POST | 日程作成    | フォーム |
-| /manage/:fixtureId?edit=1                        | POST | 日程編集    | フォーム |
-| /manage/:fixtureId?delete=1                      | POST | 日程削除    | フォーム |
-| /fixtures/:fixtureId/posts/                      | POST | コメント    | フォーム |
-| /fixtures/:fixtureId/posts/:postId?delete=1      | POST | コメントの削除 | フォーム |
-| /fixtures/:fixtureId/posts/:postId/users/:userId | POST | イイね     | AJAX |
+| パス                                               | メソッド | 処理内容         | 利用方法 |
+| ------------------------------------------------ | ---- | ------------ | ---- |
+| /manage/insert                                   | POST | 日程挿入         | AJAX |
+| /manage/new                                      | POST | 日程作成         | フォーム |
+| /manage/edit                                     | POST | 編集ページにリダイレクト | フォーム |
+| /manage/:fixtureId?edit=1                        | POST | 日程編集         | フォーム |
+| /manage/:fixtureId?delete=1                      | POST | 日程削除         | フォーム |
+| /fixtures/:fixtureId/posts/                      | POST | コメント         | フォーム |
+| /fixtures/:fixtureId/posts/:postId?delete=1      | POST | コメントの削除      | フォーム |
+| /fixtures/:fixtureId/posts/:postId/users/:userId | POST | イイね          | AJAX |
 
 * メソッドを全て POST にしました。
 * :userId は、ユーザーエンティティの主キー、 /:postId はコメントエンティティの主キーとします。
