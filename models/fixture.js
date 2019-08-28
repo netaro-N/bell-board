@@ -16,6 +16,10 @@ const Fixture = loader.database.define('fixtures', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  location:{
+    type: Sequelize.STRING,
+    allowNull:false
+  },
   homeTeam:{
     type: Sequelize.STRING,
     allowNull:false

@@ -31,8 +31,8 @@
 | fixtureId   | 文字列 | 日程ID、主キー  |
 | fixtureDate | 日付  | 日程の日付     |
 | description | 文字列 | 試合の種類     |
-| location    | 文字列 | スタジアム      |
+| location    | 文字列 | スタジアム     |
 | homeTeam    | 文字列 | ホーム・チーム名  |
 | awayTeam    | 文字列 | アウェー・チーム名 |
-| homeScore   | 数値  | ホーム得点     |
-| awayScore   | 数値  | アウェー得点    |
+| homeScore   | 文字列 | ホーム得点     |
+| awayScore   | 文字列 | アウェー得点    |
