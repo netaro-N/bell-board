@@ -12,7 +12,7 @@ const Fixture = loader.database.define('fixtures', {
     type: Sequelize.DATE,
     allowNull: false
   },
-  fixtureSort: {
+  description: {
     type: Sequelize.STRING,
     allowNull: false
   },

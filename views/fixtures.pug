@@ -7,7 +7,7 @@ block content
       each f in fixtures
         tr
           th #{f.formattedDate}
-          td #{f.fixtureSort}
+          td #{f.description}
           td #{f.homeTeam}
           td
             a(href=`/fixtures/${f.fixtureId}`) #{f.homeScore} - #{f.awayScore}

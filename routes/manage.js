@@ -65,13 +65,13 @@ router.post('/new', (req, res, next) => {
       fixtureId: { [Op.like]: req.body.fixtureId + '%' } // fixtureDate <= japanTimeplus2
     }
   }).then((id) => {
-    //fixtureId,fixtureDate,fixtureSort,homeTeam,awayTeam,homeScore,awayScore
+    //fixtureId,fixtureDate,description,homeTeam,awayTeam,homeScore,awayScore
     const fixtureDate = new Date(req.body.fixtureDate);
     const formattedDate = moment(fixtureDate).format("YYYY/MM/DD HH:mm");
     Fixture.upsert({
       fixtureId: req.body.fixtureId + (id.length + 1),
       fixtureDate: formattedDate,
-      fixtureSort: req.body.fixtureSort,
+      description: req.body.description,
       homeTeam: req.body.homeTeam,
       awayTeam: req.body.awayTeam,
       homeScore: '',
@@ -110,7 +110,7 @@ router.post('/:fixtureId', (req, res, next) => {
       f.update({
         fixtureId: f.fixtureId,
         fixtureDate: formattedDate,
-        fixtureSort: req.body.fixtureSort,
+        description: req.body.description,
         homeTeam: req.body.homeTeam,
         awayTeam: req.body.awayTeam,
         homeScore: req.body.homeScore,
