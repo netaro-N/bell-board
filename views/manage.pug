@@ -11,3 +11,6 @@ block content
         each id in ID
           option(value=`${id}`)
       button(type="submit") 日程を編集する
+    div
+      form(method="post", action=`/manage/insert`)
+        button(type="submit" onclick="return confirm('サーバーにあるcsvファイルをデータベースに流しますか？');") CSVファイルをインサートする

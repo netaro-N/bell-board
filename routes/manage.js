@@ -90,6 +90,41 @@ router.post('/insert', (req, res, next) => {
 
 });
 
+router.post('/1234', (req, res, next) => {
+  const file = '19.csv';
+  let data = fs.readFileSync(file);
+  let Parse = csvParse(data, {
+    delimiter: ',',
+    rowDelimiter: 'auto',
+    quote: '"',
+    escape: '"',
+    columns: true,
+    comment: '#',
+    skip_empty_line: true,
+    trim: false
+  });
+  Parse.forEach((f, i) => {
+    // 時差用　f.formattedDate = moment(f.fixtureDate, 'DD/MM/YYYY HH:mm').add(8, 'hours').format("YYYY/MM/DD HH:mm");
+    //console.log(f.fixtureDate + ' → ' + f.formattedDate);
+
+    // fixtureId,fixtureDate,desctiption,location,homeTeam,awayTeam,homeScore,awayScore
+    Fixture.upsert({
+      fixtureId: f.fixtureId,
+      fixtureDate: f.fixtureDate,
+      description: f.description,
+      location: f.location,
+      homeTeam: f.homeTeam,
+      awayTeam: f.awayTeam,
+      homeScore: f.homeScore,
+      awayScore: f.awayScore
+    });
+
+  });
+  res.json({ status: 'OK', Parse: Parse });
+  console.log('サーバーサイドおK');
+});
+
+
 /* POST 編集ページへリダイレクト */
 router.post('/edit', function (req, res, next) {
   res.redirect(`/manage/${req.body.fixtureId}`);
