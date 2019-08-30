@@ -84,13 +84,6 @@ router.post('/new', (req, res, next) => {
 
 /* POST csv file */
 router.post('/insert', (req, res, next) => {
-  // ここに csvParse 実装
-
-  // ここにデータベースへ保存実装
-
-});
-
-router.post('/1234', (req, res, next) => {
   const file = '19.csv';
   let data = fs.readFileSync(file);
   let Parse = csvParse(data, {
