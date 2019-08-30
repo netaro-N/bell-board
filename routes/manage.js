@@ -118,7 +118,7 @@ router.post('/:fixtureId', (req, res, next) => {
         homeScore: req.body.homeScore,
         awayScore: req.body.awayScore
       }).then((fixture) => {
-        res.redirect('/fixtures' + fixture.fixtureId);
+        res.redirect('/fixtures/' + fixture.fixtureId);
       });
     } else if (parseInt(req.query.delete) ===1 ){
       console.log('get!!' + req.params.fixtureId);
