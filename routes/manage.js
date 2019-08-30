@@ -113,7 +113,7 @@ router.post('/insert', (req, res, next) => {
     });
 
   });
-  res.json({ status: 'OK', Parse: Parse });
+  res.redirect('/fixtures');
   console.log('サーバーサイドおK');
 });
 
