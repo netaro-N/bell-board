@@ -3,3 +3,15 @@ extends layout
 block content
   main
     div.mainInner ここに試合情報
+    if user
+      p #{user.username}さんこんにちは
+      //img(src=`${user.photos[0].value}` width="50" height="50")
+      h2 新規投稿
+      form(method="post" action="/fixtures/:fixtureId/posts/")
+        input(type="hidden" name="_csrf" value!=csrfToken)
+        div
+          textarea(name="content" cols=40 rows=4)
+        div
+          button(type="submit") 投稿
+    else
+      p ログインして投稿してみよう！
