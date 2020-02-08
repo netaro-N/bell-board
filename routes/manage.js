@@ -172,4 +172,6 @@ function deleteFixture (fixtureId, done, err) {
   done();
 }
 
+router.deleteFixture = deleteFixture;
+
 module.exports = router;

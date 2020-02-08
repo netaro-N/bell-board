@@ -2,6 +2,7 @@
 const request = require('supertest');
 const app = require('../app');
 const passportStub = require('passport-stub');
+const deleteFixture = require('../routes/manage').deleteFixture;
 
 describe('"/login" Routerオブジェクトのテスト', () => {
   before(() => {
@@ -44,7 +45,8 @@ describe('"/manage" のテスト', () => {
   it('試合が作成でき、表示される', (done) => {
     request(app)
       .post('/manage/new')
-      .send()
+      //fixtureId,fixtureDate,description,homeTeam,awayTeam,homeScore,awayScore
+      .send({  })
       .expect('Location',/manage/new) //⇐get の方の"manage/new"
       .expect(302)
       .end((err, res) => {
@@ -54,7 +56,7 @@ describe('"/manage" のテスト', () => {
           //TODO 作成された試合と結果が表示されていることをテスト
 
           .expect(200)
-          .end((err, res) => {});//作成した試合を削除
+          .end((err, res) => { deleteFixture(testFixtureId, done, err); });//作成した試合を削除
       });
   });
 });
