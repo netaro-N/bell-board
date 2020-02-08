@@ -46,15 +46,19 @@ describe('"/manage" のテスト', () => {
     request(app)
       .post('/manage/new')
       //fixtureId,fixtureDate,description,homeTeam,awayTeam,homeScore,awayScore
-      .send({  })
-      .expect('Location',/manage/new) //⇐get の方の"manage/new"
+      .send({ fixtureId:'hoge',fixtureDate:'2200/12/21 10:01',description:'hogeリーグ',location:'hogeスタ',homeTeam:'Realhoge',awayTeam:'FChoge',homeScore:'3',awayScore:'2' })
+      .expect('Location', /manage/) //⇐get の方の"manage/new"
       .expect(302)
       .end((err, res) => {
-        const testFixtureId = hoge;
+        const testFixtureId = 'hoge1';
         request(app)
-          .get(testFixtureId)
+          .get(`/fixtures/${testFixtureId}`)
           //TODO 作成された試合と結果が表示されていることをテスト
-
+          .expect(/2200/)
+          .expect(/hogeリーグ/)
+          .expect(/hogeスタ/)
+          .expect(/Realhoge/)
+          .expect(/FChoge/)
           .expect(200)
           .end((err, res) => { deleteFixture(testFixtureId, done, err); });//作成した試合を削除
       });
