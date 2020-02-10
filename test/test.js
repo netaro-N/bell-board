@@ -46,7 +46,7 @@ describe('"/manage" のテスト', () => {
     request(app)
       .post('/manage/new')
       //fixtureId,fixtureDate,description,homeTeam,awayTeam,homeScore,awayScore
-      .send({ fixtureId:'hoge',fixtureDate:'2200/12/21 10:01',description:'hogeリーグ',location:'hogeスタ',homeTeam:'Realhoge',awayTeam:'FChoge',homeScore:'3',awayScore:'2' })
+      .send({ fixtureId:'hoge',fixtureDate:'2200/12/21 10:01',description:'hogeリーグ',location:'hogeスタ',homeTeam:'Realhoge',awayTeam:'FChoge' })
       .expect('Location', /manage/) //⇐get の方の"manage/new"
       .expect(302)
       .end((err, res) => {
@@ -64,3 +64,29 @@ describe('"/manage" のテスト', () => {
       });
   });
 });
+
+describe('"/manage/:fixtureId?edit=1" のテスト', () => {
+  it('試合が作成でき、編集できる', (done) => {
+    request(app)
+      .post('/manage/new')
+      .send({ fixtureId:'huga',fixtureDate:'2200/12/21 10:01',description:'hogeリーグ',location:'hogeスタ',homeTeam:'Realhoge',awayTeam:'FChoge',homeScore:'3',awayScore:'2' })
+      //.expect('Location', /manage/) //⇐get の方の"manage/new"
+      //.expect(302)
+      .end((err, res) => {
+        const testFixtureId = 'huga1';
+        request(app)
+          .post(`/manage/${testFixtureId}?edit=1`)
+          .send( { fixtureDate:'2200/12/21 10:01',description:'hogeリーグ',location:'hogeスタ',homeTeam:'Realhoge',awayTeam:'FChoge',homeScore:'3',awayScore:'2' } )
+          // .get(`/fixtures/${testFixtureId}`)
+          // //TODO 作成された試合と結果が表示されていることをテスト
+          // .expect(/2200/)
+          // .expect(/hogeリーグ/)
+          // .expect(/hogeスタ/)
+          // .expect(/Realhoge/)
+          // .expect(/FChoge/)
+          // .expect(200)
+          .end((err, res) => { deleteFixture(testFixtureId, done, err); });//作成した試合を削除
+      });
+  });
+});
+
