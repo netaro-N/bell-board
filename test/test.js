@@ -82,18 +82,10 @@ describe('"/manage/:fixtureId?edit=1" のテスト', () => {
             .end((err, res) => {
               Fixture.findByPk(testEditFixtureId).then((f) => {
                 assert.equal(f.description, 'hugaリーグ');
+                assert.equal(f.homeScore, '3');
                 deleteFixture(testEditFixtureId, done, err);
               });
             });
-          // .get(`/fixtures/${testFixtureId}`)
-          // //TODO 作成された試合と結果が表示されていることをテスト
-          // .expect(/2200/)
-          // .expect(/hogeリーグ/)
-          // .expect(/hogeスタ/)
-          // .expect(/Realhoge/)
-          // .expect(/FChoge/)
-          // .expect(200)
-          //.end((err, res) => { deleteFixture(testFixtureId, done, err); });//作成した試合を削除
       });
   });
 });
