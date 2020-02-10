@@ -1,7 +1,9 @@
 'use strict';
 const request = require('supertest');
+const assert = require('assert');
 const app = require('../app');
 const passportStub = require('passport-stub');
+const Fixture = require('../models/fixture');
 const deleteFixture = require('../routes/manage').deleteFixture;
 
 describe('"/login" Routerオブジェクトのテスト', () => {
@@ -73,10 +75,16 @@ describe('"/manage/:fixtureId?edit=1" のテスト', () => {
       //.expect('Location', /manage/) //⇐get の方の"manage/new"
       //.expect(302)
       .end((err, res) => {
-        const testFixtureId = 'huga1';
+        const testEditFixtureId = 'huga1';
         request(app)
-          .post(`/manage/${testFixtureId}?edit=1`)
-          .send( { fixtureDate:'2200/12/21 10:01',description:'hogeリーグ',location:'hogeスタ',homeTeam:'Realhoge',awayTeam:'FChoge',homeScore:'3',awayScore:'2' } )
+          .post(`/manage/${testEditFixtureId}?edit=1`)
+          .send( { fixtureDate:'2220/12/21 10:01',description:'hugaリーグ',location:'hugaスタ',homeTeam:'Realhuga',awayTeam:'FChuga',homeScore:'3',awayScore:'2' } )
+            .end((err, res) => {
+              Fixture.findByPk(testEditFixtureId).then((f) => {
+                assert.equal(f.description, 'hugaリーグ');
+                deleteFixture(testEditFixtureId, done, err);
+              });
+            });
           // .get(`/fixtures/${testFixtureId}`)
           // //TODO 作成された試合と結果が表示されていることをテスト
           // .expect(/2200/)
@@ -85,7 +93,7 @@ describe('"/manage/:fixtureId?edit=1" のテスト', () => {
           // .expect(/Realhoge/)
           // .expect(/FChoge/)
           // .expect(200)
-          .end((err, res) => { deleteFixture(testFixtureId, done, err); });//作成した試合を削除
+          //.end((err, res) => { deleteFixture(testFixtureId, done, err); });//作成した試合を削除
       });
   });
 });
