@@ -57,4 +57,12 @@ router.get('/:fixtureId', function (req, res, next) {
   })
 });
 
+router.post('/:fixtureId/posts' , (req,res ,next) => {
+// ここにコメント処理
+});
+
+router.post('/:fixtureId/posts/:postId', (req, res, next) => {
+  //if (parseInt(req.query.delete) === 1){ の処理 }
+})
+
 module.exports = router;

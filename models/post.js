@@ -21,7 +21,12 @@ const Post = loader.database.define('posts', {
   }
 }, {
   freezeTableName: true,
-  timestamps: true
+  timestamps: true,
+  indexes: [
+    {
+      fields: ['fixtureId'] // インデックス化
+    }
+  ]
 });
 
 module.exports = Post;
