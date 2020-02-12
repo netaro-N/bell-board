@@ -60,14 +60,12 @@ router.get('/:fixtureId', function (req, res, next) {
 
 router.post('/:fixtureId/posts' , (req,res ,next) => {
 // ここにコメント処理
-  console.log('この試合のIDは⇒⇒⇒'+req.params.fixtureId)
   const userId = req.user.provider + req.user.id;
   Post.create({
     fixtureId:req.params.fixtureId,
     postedBy:userId,
     content:req.body.content
   }).then(() => {
-    console.log(req.body.content);
     res.redirect(302, '/fixtures/'+req.params.fixtureId);
   })
 });

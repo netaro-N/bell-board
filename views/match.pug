@@ -17,13 +17,9 @@ block content
         div #{fixture.homeTeam}
         div #{fixture.homeScore} - #{fixture.awayScore}
         div #{fixture.awayTeam}
-        div #{fixture.fixtureId}
     div
       a(href=`/manage/${fixture.fixtureId}`) この予定を編集する
     if user
-      div #{fixture.fixtureId}
-      div この試合のIDは#{fixture.fixtureId}
-      div 場所 : #{fixture.location}
       p #{user.username}さんこんにちは
       //img(src=`${user.photos[0].value}` width="50" height="50")
       h2 新規投稿
