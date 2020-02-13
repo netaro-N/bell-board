@@ -43,7 +43,7 @@
   3. pg
   4. pg-hstore 
   5. csv-parse
-  6. moment-timesone
+  6. moment-timezone
 
 ## 大会の表記
 * Jリーグ　＝　J1- , J2-

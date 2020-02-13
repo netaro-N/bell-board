@@ -3,6 +3,22 @@ extends layout
 block content
   main
     div.mainInner ここに試合情報
+    p #{title}
+    div
+      a(href=`/${fixture.fixtureDate}/last`) 前の試合
+      a(href=`/${fixture.fixtureDate}/last`) ◀︎
+    div
+      a(href=`/${fixture.fixtureDate}/next`) 次の試合
+      a(href=`/${fixture.fixtureDate}/next`) ▶︎
+      div
+        div #{fixture.description}
+        div 日本時間 : #{fixture.formattedDate}〜KO
+        div 場所 : #{fixture.location}
+        div #{fixture.homeTeam}
+        div #{fixture.homeScore} - #{fixture.awayScore}
+        div #{fixture.awayTeam}
+    div
+      a(href=`/manage/${fixture.fixtureId}`) この予定を編集する
     if user
       p #{user.username}さんこんにちは
       //img(src=`${user.photos[0].value}` width="50" height="50")
