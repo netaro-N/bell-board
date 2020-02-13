@@ -23,7 +23,7 @@ block content
       p #{user.username}さんこんにちは
       //img(src=`${user.photos[0].value}` width="50" height="50")
       h2 新規投稿
-      form(method="post" action="/fixtures/:fixtureId/posts/")
+      form(method="post" action=`/fixtures/${fixture.fixtureId}/posts/`)
         input(type="hidden" name="_csrf" value!=csrfToken)
         div
           textarea(name="content" cols=40 rows=4)

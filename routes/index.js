@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
   console.log('整形⇒' +new Date(japanTime) );
   Fixture.findOne({
     where: {
-      fixtureDate: { [Op.lte]: new Date(japanTime) } // fixtureDate <= japanTimeplus2 2019/04/13 Op.lte → $lte
+      fixtureDate: { [Op.lte]: new Date(japanTime) } // fixtureDate <= japanTime 2019/04/13 Op.lte → $lte
     },
     order: [['"fixtureDate"', 'DESC']]
   }).then((fixture) => {
