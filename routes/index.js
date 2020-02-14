@@ -6,6 +6,7 @@ const Op = Sequelize.Op;
 const Fixture = require('../models/fixture');
 const Post = require('../models/post');
 const User = require('../models/user');
+const config = require('../config');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -51,7 +52,7 @@ router.get('/', function(req, res, next) {
   //     sumPostEvMap.set(postEva.postId, postEva.dataValues['count']);
   //     console.log(postEva.postId + 'の「いいね」の数は' + postEva.dataValues['count']);
   //   });
-    // if (req.user) {
+     if (req.user) {
     //   return Evaluation.findAll({
     //     where: { userId: req.user.provider + req.user.id }
     //   }).then((evaluations) => {
@@ -70,28 +71,29 @@ router.get('/', function(req, res, next) {
     //       console.log('（全投稿）投稿' + p.id + 'へあなたの評価は' + e);
     //     });
     //     // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
-    //     res.render('index', {
-    //       title: title,
-    //       user: req.user,
-    //       posts: storedPosts,
-    //       SelfEvaMap: rendSelfEvaluationMap,
-    //       sumPostEvMap: sumPostEvMap,
-    //       admin: config.admin,
-    //       csrfToken: req.csrfToken()
-    //     });
+        res.render('index', {
+          title: 'こんにちは',
+          user: req.user,
+          fixture: fixture,
+          posts: storedPosts,
+        //  SelfEvaMap: rendSelfEvaluationMap,
+        //  sumPostEvMap: sumPostEvMap,
+          admin: config.admin,
+        //  csrfToken: req.csrfToken()
+        });
     //   });
-    // } else {
+     } else {
       res.render('index', {
-        title: 'こちらはトップページです',
+        title: 'user無し',
         user: req.user,
         fixture: fixture,
-        posts: storedPosts
+        posts: storedPosts,
         //SelfEvaMap: rendSelfEvaluationMap,
     //    sumPostEvMap: sumPostEvMap,
-    //    admin: config.admin,
+        admin: config.admin,
     //    csrfToken: req.csrfToken()
       });
-   // }
+    }
   });
 
     } else {
