@@ -3,6 +3,7 @@ var router = express.Router();
 const moment = require('moment-timezone');
 const Fixture = require('../models/fixture');
 const Post = require('../models/post');
+const User = require('../models/user');
 
 /* GET fixtures page. */
 router.get('/', function(req, res, next) {
