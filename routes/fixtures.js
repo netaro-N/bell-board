@@ -4,6 +4,8 @@ const moment = require('moment-timezone');
 const Fixture = require('../models/fixture');
 const Post = require('../models/post');
 const User = require('../models/user');
+const Evaluation = require('../models/evaluation');
+const config = require('../config');
 
 /* GET fixtures page. */
 router.get('/', function(req, res, next) {
@@ -71,8 +73,64 @@ router.post('/:fixtureId/posts' , (req,res ,next) => {
   })
 });
 
-router.post('/:fixtureId/posts/:postId', (req, res, next) => {
-  //if (parseInt(req.query.delete) === 1){ の処理 }
-})
 
+function isMine(req, post) {
+  const userId = req.user.provider + req.user.id;
+  return post && post.postedBy === userId;
+}
+
+function isAdmin(req, post) {
+  const userId = req.user.provider + req.user.id;
+  return post && config.admin === userId;
+}
+
+router.post('/posts', (req, res, next) => {
+  if (parseInt(req.query.delete) === 1) {
+    Post.findOne({
+      where: {
+        postId:req.body.postId
+      }
+    }).then((post) => {
+      if (post && (isMine(req, post) || isAdmin(req, post))) {
+        deletePostAggregate(req.body.postId, () => {
+          res.redirect('/');})
+      }else{
+        const err = new Error('指定された投稿がない、または、削除する権限がありません。');
+        err.status = 404;
+        next(err);
+      }
+    });
+  } else {
+    // 本プロダクトではpost createは違うURLだから。ここは編集機能にでもしようか？
+    // const userId = req.user.provider + req.user.id;
+    // Post.create({
+    //   postedBy: userId,
+    //   content: req.body.content
+    // }).then(() => {
+    //   res.redirect(302, '/');
+    // });
+    const err = new Error('不正なリクエストです。');
+    err.status = 404;
+    next(err);
+  }
+});
+
+function deletePostAggregate(id, done, err) {
+  Post.findByPk(id).then((post) => {
+      //いいねの削除
+      Evaluation.findAll({
+        where:{ postId:id }
+      }).then((evaluations) => {
+        const promises = evaluations.map((e) => { return e.destroy(); });
+        return Promise.all(promises);
+      }).then(() => {
+        return post.destroy();
+      }).then(() => {
+      if (err) return done(err); // ??いらんやろ。これテスト用や！
+      done();
+      });
+  });
+}
+
+router.deletePostAggregate = deletePostAggregate;
 module.exports = router;

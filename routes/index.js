@@ -6,6 +6,7 @@ const Op = Sequelize.Op;
 const Fixture = require('../models/fixture');
 const Post = require('../models/post');
 const User = require('../models/user');
+const Evaluation = require('../models/evaluation');
 const config = require('../config');
 
 /* GET home page. */

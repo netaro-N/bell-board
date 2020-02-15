@@ -39,7 +39,7 @@ block content
             div.card.h-100
               div.card-header
                 //- - var isPostedByAdmin = (post.postedBy === admin)
-                //- - var evaluations = sumPostEvMap.get(post.id) || 0;
+                //- - var evaluations = sumPostEvMap.get(post.postId) || 0;
                 //- if isPostedByAdmin
                   p 投稿者： 管理人　★
                   img(src=`${post.user.thumbUrl}` width="50px")
@@ -47,22 +47,22 @@ block content
                 p 投稿者：#{post.user.username}さん
                 //- img(src=`${post.user.thumbUrl}`)
               div.card-body
-                p(class=post.postedBy id=post.id style="white-space:pre-wrap;") #{post.content}
+                p(class=post.postedBy postId=post.postId style="white-space:pre-wrap;") #{post.content}
               div.card-footer
                 p 投稿日時: #{post.formattedCreatedAt}
                 p イイね総数
                 //- p #{evaluations}
-                //- if user
-                //-   - var userId = user.provider + user.id;
-                //-   - var e = SelfEvaMap.get(post.id);
-                //-   - var string = e ? 'true' : 'false'
-                //-   button(
-                //-     data-post-id=post.id
-                //-     data-user-id=userId
-                //-     data-user-evaluation=string).evaluation-button いいねボタン
-                //-   - var isDeletable = (userId === post.postedBy || userId === admin)
-                //-   if isDeletable
-                //-     form(method="post" action="/posts?delete=1")
-                //-       input(type="hidden" name="_csrf" value!=csrfToken)
-                //-       input(type="hidden" name="id" value=post.id)
-                //-       button(type="submit" onclick="return confirm(`投稿を削除します\nよろしいですね？`);") 削除
+                if user
+                  - var userId = user.provider + user.id;
+                  //-   - var e = SelfEvaMap.get(post.postId);
+                  //-   - var string = e ? 'true' : 'false'
+                  //-   button(
+                  //-     data-post-id=post.postId
+                  //-     data-user-id=userId
+                  //-     data-user-evaluation=string).evaluation-button いいねボタン
+                  - var isDeletable = (userId === post.postedBy || userId === admin)
+                  if isDeletable
+                    form(method="post" action="/fixtures/posts?delete=1")
+                      //- input(type="hidden" name="_csrf" value!=csrfToken)
+                      input(type="hidden" name="postId" value=post.postId)
+                      button(type="submit" onclick="return confirm(`投稿を削除します\nよろしいですね？`);") 削除
