@@ -28,8 +28,8 @@
   - [x] index.pugにも同じ機能を実装する
 - [ ] コメントの表示（render）
   - [ ] 表示のみ
-    - [ ] まず、indexで削除実装（formファイルisMine関数以下参照）まで
-    - [ ] 削除ができたら、fixtures.jsにも実装
+    - [x] まず、indexで削除実装（formファイルisMine関数以下参照）まで
+    - [ ] fixtures.jsおよびmatch.pugで同じ機能を可能にする
   - [ ] evaluation機能に取り掛かる
   - [ ] admin機能
 - [ ] 前／後の試合リンク
