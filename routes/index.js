@@ -72,8 +72,9 @@ router.get('/', function(req, res, next) {
     //       console.log('（全投稿）投稿' + p.id + 'へあなたの評価は' + e);
     //     });
     //     // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
+     }
         res.render('index', {
-          title: 'こんにちは',
+          title: 'Top Page',
           user: req.user,
           fixture: fixture,
           posts: storedPosts,
@@ -83,18 +84,6 @@ router.get('/', function(req, res, next) {
         //  csrfToken: req.csrfToken()
         });
     //   });
-     } else {
-      res.render('index', {
-        title: 'user無し',
-        user: req.user,
-        fixture: fixture,
-        posts: storedPosts,
-        //SelfEvaMap: rendSelfEvaluationMap,
-    //    sumPostEvMap: sumPostEvMap,
-        admin: config.admin,
-    //    csrfToken: req.csrfToken()
-      });
-    }
   });
 
     } else {
