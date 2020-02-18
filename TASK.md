@@ -31,7 +31,9 @@
     - [x] まず、indexで削除実装（formファイルisMine関数以下参照）まで
     - [x] fixtures.jsおよびmatch.pugで同じ機能を可能にする
   - [ ] evaluation機能に取り掛かる
-    - [ ] webpackの導入
+    - [x] webpackの導入
+    - [ ] [entry.js ,fixtures.js ,index.js]
+    - [ ] [match.pug ,index.pug]
   - [ ] admin機能
   - [ ] 削除について：以前いたURLにリダイレクトするようにする
 
@@ -44,6 +46,9 @@
 
 - [ ] 細かな機能とモジュールの使用
   - [ ] ファビコン（serve-faviconモジュ）
+
+- [ ] fixture-form のlayout.pugにある通り、ハンバーガー使ったりするにはbootstrapJs適用必要！（https://getbootstrap.jp/docs/4.2/getting-started/introduction/）
+- [ ] 
 
 ## 記録
 * 使用したモジュール/フレームワーク
