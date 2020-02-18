@@ -32,6 +32,8 @@
     - [x] fixtures.jsおよびmatch.pugで同じ機能を可能にする
   - [ ] evaluation機能に取り掛かる
     - [x] webpackの導入
+    - [ ] evのデータ、インデックス化
+    - [ ] route/evaluations.jsにしたほうが楽？
     - [ ] [entry.js ,fixtures.js ,index.js]
     - [ ] [match.pug ,index.pug]
   - [ ] admin機能
