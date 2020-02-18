@@ -153,6 +153,7 @@ router.post('/posts', (req, res, next) => {
       if (post && (isMine(req, post) || isAdmin(req, post))) {
         deletePostAggregate(req.body.postId, () => {
           res.redirect('/');})
+          // 以前いたURLにリダイレクトする
       }else{
         const err = new Error('指定された投稿がない、または、削除する権限がありません。');
         err.status = 404;
