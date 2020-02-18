@@ -31,8 +31,10 @@
     - [x] まず、indexで削除実装（formファイルisMine関数以下参照）まで
     - [x] fixtures.jsおよびmatch.pugで同じ機能を可能にする
   - [ ] evaluation機能に取り掛かる
+    - [ ] webpackの導入
   - [ ] admin機能
-- [ ] 削除について：以前いたURLにリダイレクトするようにする
+  - [ ] 削除について：以前いたURLにリダイレクトするようにする
+
 - [ ] 前／後の試合リンク
 
 ### その他随時施工
@@ -44,13 +46,15 @@
   - [ ] ファビコン（serve-faviconモジュ）
 
 ## 記録
-* 使用したモジュール
+* 使用したモジュール/フレームワーク
   1. se
   2. sequelize
   3. pg
   4. pg-hstore 
   5. csv-parse
   6. moment-timezone
+  7. webpack,babel
+  8. jQuery
 
 ## 大会の表記
 * Jリーグ　＝　J1- , J2-
