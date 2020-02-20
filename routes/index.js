@@ -74,7 +74,7 @@ router.get('/', function(req, res, next) {
         // const e = selfEvaluationMap.get(p.id) || 0
         // rendSelfEvaluationMap.set(p.id , e)
         storedPosts.forEach((p) => {
-          const e = selfEvaluationMap.get(p.id) || false;
+          const e = selfEvaluationMap.get(p.postId) || false;
           rendSelfEvaluationMap.set(p.postId, e);
           console.log('（全投稿）投稿' + p.postId + 'へあなたの評価は' + e);
         });
