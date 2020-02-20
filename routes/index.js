@@ -42,44 +42,51 @@ router.get('/', function(req, res, next) {
     });
     // storedPostsごとforEachの、Evaluation.findAllの{evaluation: true}の合計
     // sumPostEvMap.set(postId , COUNT)
-  //   return Evaluation.findAll({
-  //     attributes: ['postId', [sequelize.fn('COUNT', sequelize.col('userId')), 'count']],
-  //     group: ['postId'],
-  //     where: { evaluation: 't' }
-  //   });
-  // }).then((sumEva) => {
-  //   const sumPostEvMap = new Map();
-  //   sumEva.forEach((postEva) => {
-  //     sumPostEvMap.set(postEva.postId, postEva.dataValues['count']);
-  //     console.log(postEva.postId + 'の「いいね」の数は' + postEva.dataValues['count']);
-  //   });
+    return Evaluation.findAll({
+      attributes: ['postId', [sequelize.fn('COUNT', sequelize.col('userId')), 'count']],
+      group: ['postId'],
+      where: { 
+        fixtureId:fixture.fixtureId,
+        evaluation: 't'
+       }
+    });
+  }).then((sumEva) => {
+    const sumPostEvMap = new Map();
+    sumEva.forEach((postEva) => {
+      sumPostEvMap.set(postEva.postId, postEva.dataValues['count']);
+      console.log(postEva.postId + 'の「いいね」の数は' + postEva.dataValues['count']);
+    });
      if (req.user) {
-    //   return Evaluation.findAll({
-    //     where: { userId: req.user.provider + req.user.id }
-    //   }).then((evaluations) => {
-    //     // forEach でselfEvaluationMapに{[postId:evaluation]…}入れていく
-    //     // selfEvaluationMap.set(e.postId , e.evaluation)
-    //     evaluations.forEach((e) => {
-    //       selfEvaluationMap.set(e.postId, e.evaluation);
-    //       console.log('（評価済み）投稿' + e.postId + 'へあなたの評価は' + e.evaluation);
-    //     });
-    //     // storedPostsをforEachで回して、
-    //     // const e = selfEvaluationMap.get(p.id) || 0
-    //     // rendSelfEvaluationMap.set(p.id , e)
-    //     storedPosts.forEach((p) => {
-    //       const e = selfEvaluationMap.get(p.id) || false;
-    //       rendSelfEvaluationMap.set(p.id, e);
-    //       console.log('（全投稿）投稿' + p.id + 'へあなたの評価は' + e);
-    //     });
-    //     // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
+      return Evaluation.findAll({
+        where: { 
+          fixtureId:fixture.fixtureId,
+          userId: req.user.provider + req.user.id
+         }
+      }).then((evaluations) => {
+        // forEach でselfEvaluationMapに{[postId:evaluation]…}入れていく
+        // selfEvaluationMap.set(e.postId , e.evaluation)
+        evaluations.forEach((e) => {
+          selfEvaluationMap.set(e.postId, e.evaluation);
+          console.log('（評価済み）投稿' + e.postId + 'へあなたの評価は' + e.evaluation);
+        });
+        // storedPostsをforEachで回して、
+        // const e = selfEvaluationMap.get(p.id) || 0
+        // rendSelfEvaluationMap.set(p.id , e)
+        storedPosts.forEach((p) => {
+          const e = selfEvaluationMap.get(p.id) || false;
+          rendSelfEvaluationMap.set(p.id, e);
+          console.log('（全投稿）投稿' + p.id + 'へあなたの評価は' + e);
+        });
+        // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
+      });
      }
         res.render('index', {
           title: 'Top Page',
           user: req.user,
           fixture: fixture,
           posts: storedPosts,
-        //  SelfEvaMap: rendSelfEvaluationMap,
-        //  sumPostEvMap: sumPostEvMap,
+          SelfEvaMap: rendSelfEvaluationMap,
+          sumPostEvMap: sumPostEvMap,
           admin: config.admin,
         //  csrfToken: req.csrfToken()
         });

@@ -39,7 +39,7 @@ block content
             div.card.h-100
               div.card-header
                 //- - var isPostedByAdmin = (post.postedBy === admin)
-                //- - var evaluations = sumPostEvMap.get(post.postId) || 0;
+                - var evaluations = sumPostEvMap.get(post.postId) || 0;
                 //- if isPostedByAdmin
                   p 投稿者： 管理人　★
                   img(src=`${post.user.thumbUrl}` width="50px")
@@ -51,16 +51,16 @@ block content
               div.card-footer
                 p 投稿日時: #{post.formattedCreatedAt}
                 p イイね総数
-                //- p #{evaluations}
+                p #{evaluations}
                 if user
                   - var userId = user.provider + user.id;
-                  //-   - var e = SelfEvaMap.get(post.postId);
-                  //-   - var string = e ? 'true' : 'false'
-                  //-   button(
-                  //-     data-post-id=post.postId
-                  //-     data-user-id=userId
-                  //-     data-  =fixture.fixtureId
-                  //-     data-user-evaluation=string).evaluation-button いいねボタン
+                  - var e = SelfEvaMap.get(post.postId);
+                  - var string = e ? 'true' : 'false'
+                  button(
+                    data-post-id=post.postId
+                    data-user-id=userId
+                    data-fixture-id=fixture.fixtureId
+                    data-user-evaluation=string).evaluation-button いいねボタン
                   - var isDeletable = (userId === post.postedBy || userId === admin)
                   if isDeletable
                     form(method="post" action="/fixtures/posts?delete=1")
