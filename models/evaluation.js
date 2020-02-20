@@ -25,7 +25,12 @@ const Evaluation = loader.database.define('evaluations', {
   }
 }, {
   freezeTableName: true,
-  timestamps: false
+  timestamps: false,
+  indexes: [
+    {
+      fields: ['fixtureId'] // インデックス化
+    }
+  ]
 });
 
 module.exports = Evaluation;

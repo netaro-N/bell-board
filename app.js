@@ -77,6 +77,7 @@ passport.deserializeUser(function (obj, done) {
 var indexRouter = require('./routes/index');
 var fixturesRouter = require('./routes/fixtures');
 var manageRouter = require('./routes/manage');
+var evaluationRouter = require('./routes/evaluations');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 
@@ -101,6 +102,7 @@ app.use(passport.session());
 //ルーターオブジェクトの利用
 app.use('/', indexRouter);
 app.use('/fixtures', fixturesRouter);
+app.use('/fixtures', evaluationRouter);
 app.use('/manage', manageRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
