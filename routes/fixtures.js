@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const moment = require('moment-timezone');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const Fixture = require('../models/fixture');
 const Post = require('../models/post');
 const User = require('../models/user');
@@ -70,7 +72,7 @@ router.get('/:fixtureId', function (req, res, next) {
     //storedPostsごとforEachの、Evaluation.findAllの{evaluation: true}の合計
     //sumPostEvMap.set(postId , COUNT)
     return Evaluation.findAll({
-      attributes: ['postId', [sequelize.fn('COUNT', sequelize.col('userId')), 'count']],
+      attributes: ['postId', [Sequelize.fn('COUNT', Sequelize.col('userId')), 'count']],
       group: ['postId'],
       where: { 
         fixtureId:fixture.fixtureId,
@@ -101,12 +103,11 @@ router.get('/:fixtureId', function (req, res, next) {
         // rendSelfEvaluationMap.set(p.id , e)
         storedPosts.forEach((p) => {
           const e = selfEvaluationMap.get(p.id) || false;
-          rendSelfEvaluationMap.set(p.id, e);
-          console.log('（全投稿）投稿' + p.id + 'へあなたの評価は' + e);
+          rendSelfEvaluationMap.set(p.postId, e);
+          console.log('（全投稿）投稿' + p.postId + 'へあなたの評価は' + e);
         });
         // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
-      });
-     }
+      
         res.render('match', {
           title: fixtureTitle,
           user: req.user,
@@ -117,7 +118,21 @@ router.get('/:fixtureId', function (req, res, next) {
           admin: config.admin,
         //  csrfToken: req.csrfToken()
         });
-     });
+      });
+     }else{
+      res.render('index', {
+        title: 'Top Page',
+        user: req.user,
+        fixture: fixture,
+        posts: storedPosts,
+        //SelfEvaMap: rendSelfEvaluationMap,
+        sumPostEvMap: sumPostEvMap,
+        admin: config.admin,
+      //  csrfToken: req.csrfToken()
+      });
+     }
+     
+    });
 
     } else {
       const err = new Error('指定された試合は見つかりません');
