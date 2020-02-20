@@ -6,6 +6,7 @@ $('.evaluation-button').each((i, e) => {
   button.click(() => {
     const postId = button.data('post-id');
     const userId = button.data('user-id');
+    const fixtureId = button.data('fixture-id');
     const evaluation = (button.attr('data-user-evaluation') === 'false') ? true : false;
     $.post(`/fixtures/${fixtureId}/post/${postId}/users/${userId}`,
       { evaluation: evaluation },

@@ -33,7 +33,7 @@
   - [ ] evaluation機能に取り掛かる
     - [x] webpackの導入
     - [x] evのデータ、インデックス化
-    - [ ] route/evaluations.jsにしたほうが楽？
+    - [x] route/evaluations.jsにしたほうが楽？
     - [ ] [entry.js ,fixtures.js ,index.js]
     - [ ] [match.pug ,index.pug]
   - [ ] admin機能
