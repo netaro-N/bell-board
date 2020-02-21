@@ -36,8 +36,9 @@
     - [x] route/evaluations.jsにしたほうが楽？
     - [x] [entry.js ,fixtures.js ,index.js]
     - [x] [match.pug ,index.pug]
-  - [ ] admin機能
-  - [ ] 削除について：以前いたURLにリダイレクトするようにする
+  - [x] admin機能
+  - [ ] 削除について：以前いたURLにリダイレクトするようにする　⇒　valueでpostIdやめて、fixtureIdとpostIdをurlで送る。で、fixtureIdにリダイレクト！！
+- [ ] 削除後など。戻るボタンを押した時に、不具合あり。
 
 - [ ] 前／後の試合リンク
 
