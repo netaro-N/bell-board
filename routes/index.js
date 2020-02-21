@@ -10,7 +10,7 @@ const Evaluation = require('../models/evaluation');
 const config = require('../config');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   const nowTime = new Date();
   const japanTime = moment(nowTime).tz('Asia/Tokyo').format("YYYY/MM/DD HH:mm");
   Fixture.findOne({
@@ -22,90 +22,90 @@ router.get('/', function(req, res, next) {
     if (fixture) {
       fixture.formattedDate = moment(fixture.fixtureDate).format('YYYY/MM/DD (ddd) HH:mm');
       let storedPosts = null;
-  //評価済みMap(key:postId 、値：評価)を作成
-  const selfEvaluationMap = new Map();
-  //全評価Map(key:postId 、値：評価)を作成
-  const rendSelfEvaluationMap = new Map();
+      //評価済みMap(key:postId 、値：評価)を作成
+      const selfEvaluationMap = new Map();
+      //全評価Map(key:postId 、値：評価)を作成
+      const rendSelfEvaluationMap = new Map();
 
-  Post.findAll({
-    where:{ fixtureId : fixture.fixtureId},
-    include: [
-      {
-        model: User,
-        attributes: ['userId', 'username', 'thumbUrl']
-      }],
-    order: [['postId', 'DESC']]
-  }).then((posts) => {
-    storedPosts = posts;
-    storedPosts.forEach((post) => {
-      post.formattedCreatedAt = moment(post.createdAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
-    });
-    // storedPostsごとforEachの、Evaluation.findAllの{evaluation: true}の合計
-    // sumPostEvMap.set(postId , COUNT)
-    return Evaluation.findAll({
-      attributes: ['postId', [Sequelize.fn('COUNT', Sequelize.col('userId')), 'count']],
-      group: ['postId'],
-      where: { 
-        fixtureId:fixture.fixtureId,
-        evaluation: 't'
-       }
-    });
-  }).then((sumEva) => {
-    const sumPostEvMap = new Map();
-    sumEva.forEach((postEva) => {
-      sumPostEvMap.set(postEva.postId, postEva.dataValues['count']);
-      console.log(postEva.postId + 'の「いいね」の数は' + postEva.dataValues['count']);
-    });
-    // ログイン時
-     if (req.user) {
-      return Evaluation.findAll({
-        where: { 
-          fixtureId:fixture.fixtureId,
-          userId: req.user.provider + req.user.id
-         }
-      }).then((evaluations) => {
-        // forEach でselfEvaluationMapに{[postId:evaluation]…}入れていく
-        // selfEvaluationMap.set(e.postId , e.evaluation)
-        evaluations.forEach((e) => {
-          selfEvaluationMap.set(e.postId, e.evaluation);
-          console.log('（評価済み）投稿' + e.postId + 'へあなたの評価は' + e.evaluation);
+      Post.findAll({
+        where: { fixtureId: fixture.fixtureId },
+        include: [
+          {
+            model: User,
+            attributes: ['userId', 'username', 'thumbUrl']
+          }],
+        order: [['postId', 'DESC']]
+      }).then((posts) => {
+        storedPosts = posts;
+        storedPosts.forEach((post) => {
+          post.formattedCreatedAt = moment(post.createdAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
         });
-        // storedPostsをforEachで回して、
-        // const e = selfEvaluationMap.get(p.id) || 0
-        // rendSelfEvaluationMap.set(p.id , e)
-        storedPosts.forEach((p) => {
-          const e = selfEvaluationMap.get(p.postId) || false;
-          rendSelfEvaluationMap.set(p.postId, e);
-          console.log('（全投稿）投稿' + p.postId + 'へあなたの評価は' + e);
+        // storedPostsごとforEachの、Evaluation.findAllの{evaluation: true}の合計
+        // sumPostEvMap.set(postId , COUNT)
+        return Evaluation.findAll({
+          attributes: ['postId', [Sequelize.fn('COUNT', Sequelize.col('userId')), 'count']],
+          group: ['postId'],
+          where: {
+            fixtureId: fixture.fixtureId,
+            evaluation: 't'
+          }
         });
-        // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
-      
-        res.render('index', {
-          title: req.user.username+'さんこんにちは',
-          user: req.user,
-          fixture: fixture,
-          posts: storedPosts,
-          SelfEvaMap: rendSelfEvaluationMap,
-          sumPostEvMap: sumPostEvMap,
-          admin: config.admin,
-        //  csrfToken: req.csrfToken()
+      }).then((sumEva) => {
+        const sumPostEvMap = new Map();
+        sumEva.forEach((postEva) => {
+          sumPostEvMap.set(postEva.postId, postEva.dataValues['count']);
+          console.log(postEva.postId + 'の「いいね」の数は' + postEva.dataValues['count']);
         });
+        // ログイン時
+        if (req.user) {
+          return Evaluation.findAll({
+            where: {
+              fixtureId: fixture.fixtureId,
+              userId: req.user.provider + req.user.id
+            }
+          }).then((evaluations) => {
+            // forEach でselfEvaluationMapに{[postId:evaluation]…}入れていく
+            // selfEvaluationMap.set(e.postId , e.evaluation)
+            evaluations.forEach((e) => {
+              selfEvaluationMap.set(e.postId, e.evaluation);
+              console.log('（評価済み）投稿' + e.postId + 'へあなたの評価は' + e.evaluation);
+            });
+            // storedPostsをforEachで回して、
+            // const e = selfEvaluationMap.get(p.id) || 0
+            // rendSelfEvaluationMap.set(p.id , e)
+            storedPosts.forEach((p) => {
+              const e = selfEvaluationMap.get(p.postId) || false;
+              rendSelfEvaluationMap.set(p.postId, e);
+              console.log('（全投稿）投稿' + p.postId + 'へあなたの評価は' + e);
+            });
+            // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
+
+            res.render('index', {
+              title: req.user.username + 'さんこんにちは',
+              user: req.user,
+              fixture: fixture,
+              posts: storedPosts,
+              SelfEvaMap: rendSelfEvaluationMap,
+              sumPostEvMap: sumPostEvMap,
+              admin: config.admin,
+              //  csrfToken: req.csrfToken()
+            });
+          });
+        }
+        //  非ログイン時
+        else {
+          res.render('index', {
+            title: 'Top Page',
+            user: req.user,
+            fixture: fixture,
+            posts: storedPosts,
+            //SelfEvaMap: rendSelfEvaluationMap,
+            sumPostEvMap: sumPostEvMap,
+            admin: config.admin,
+            //  csrfToken: req.csrfToken()
+          });
+        }
       });
-     }
-    //  非ログイン時
-     else {
-      res.render('index', {
-        title: 'Top Page',
-        user: req.user,
-        fixture: fixture,
-        posts: storedPosts,
-        //SelfEvaMap: rendSelfEvaluationMap,
-        sumPostEvMap: sumPostEvMap,
-        admin: config.admin,
-      //  csrfToken: req.csrfToken()
-      });
-     }
-  });
 
     } else {
       const err = new Error('表示できる試合がございません。');

@@ -10,7 +10,7 @@ const Evaluation = require('../models/evaluation');
 const config = require('../config');
 
 /* GET fixtures page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   Fixture.findAll({
     order: [['"fixtureDate"', 'ASC']]
   }).then((fixtures) => {
@@ -47,92 +47,92 @@ router.get('/:fixtureId', function (req, res, next) {
       const fixtureStatus = moment(new Date(fixture.formattedDate)).isBefore(new Date(japanTimeminus5));
       if (fixtureStatus) {
         fixtureTitle = '試合終了'
-      }else {
+      } else {
         fixtureTitle = '試合前'
       }
       let storedPosts = null;
-  //評価済みMap(key:postId 、値：評価)を作成
-  const selfEvaluationMap = new Map();
-  //全評価Map(key:postId 、値：評価)を作成
-  const rendSelfEvaluationMap = new Map();
+      //評価済みMap(key:postId 、値：評価)を作成
+      const selfEvaluationMap = new Map();
+      //全評価Map(key:postId 、値：評価)を作成
+      const rendSelfEvaluationMap = new Map();
 
-  Post.findAll({
-    where:{ fixtureId : fixture.fixtureId},
-    include: [
-      {
-        model: User,
-        attributes: ['userId', 'username', 'thumbUrl']
-      }],
-    order: [['postId', 'DESC']]
-  }).then((posts) => {
-    storedPosts = posts;
-    storedPosts.forEach((post) => {
-      post.formattedCreatedAt = moment(post.createdAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
-    });
-    //storedPostsごとforEachの、Evaluation.findAllの{evaluation: true}の合計
-    //sumPostEvMap.set(postId , COUNT)
-    return Evaluation.findAll({
-      attributes: ['postId', [Sequelize.fn('COUNT', Sequelize.col('userId')), 'count']],
-      group: ['postId'],
-      where: { 
-        fixtureId:fixture.fixtureId,
-        evaluation: 't' 
-      }
-    });
-  }).then((sumEva) => {
-    const sumPostEvMap = new Map();
-    sumEva.forEach((postEva) => {
-      sumPostEvMap.set(postEva.postId, postEva.dataValues['count']);
-      console.log(postEva.postId + 'の「いいね」の数は' + postEva.dataValues['count']);
-    });
-     if (req.user) {
-      return Evaluation.findAll({
-        where: { 
-          fixtureId:fixture.fixtureId,
-          userId: req.user.provider + req.user.id
-         }
-      }).then((evaluations) => {
-        // forEach でselfEvaluationMapに{[postId:evaluation]…}入れていく
-        // selfEvaluationMap.set(e.postId , e.evaluation)
-        evaluations.forEach((e) => {
-          selfEvaluationMap.set(e.postId, e.evaluation);
-          console.log('（評価済み）投稿' + e.postId + 'へあなたの評価は' + e.evaluation);
+      Post.findAll({
+        where: { fixtureId: fixture.fixtureId },
+        include: [
+          {
+            model: User,
+            attributes: ['userId', 'username', 'thumbUrl']
+          }],
+        order: [['postId', 'DESC']]
+      }).then((posts) => {
+        storedPosts = posts;
+        storedPosts.forEach((post) => {
+          post.formattedCreatedAt = moment(post.createdAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
         });
-        // storedPostsをforEachで回して、
-        // const e = selfEvaluationMap.get(p.id) || 0
-        // rendSelfEvaluationMap.set(p.id , e)
-        storedPosts.forEach((p) => {
-          const e = selfEvaluationMap.get(p.postId) || false;
-          rendSelfEvaluationMap.set(p.postId, e);
-          console.log('（全投稿）投稿' + p.postId + 'へあなたの評価は' + e);
+        //storedPostsごとforEachの、Evaluation.findAllの{evaluation: true}の合計
+        //sumPostEvMap.set(postId , COUNT)
+        return Evaluation.findAll({
+          attributes: ['postId', [Sequelize.fn('COUNT', Sequelize.col('userId')), 'count']],
+          group: ['postId'],
+          where: {
+            fixtureId: fixture.fixtureId,
+            evaluation: 't'
+          }
         });
-        // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
-      
-        res.render('match', {
-          title: fixtureTitle,
-          user: req.user,
-          fixture: fixture,
-          posts: storedPosts,
-          SelfEvaMap: rendSelfEvaluationMap,
-          sumPostEvMap: sumPostEvMap,
-          admin: config.admin,
-        //  csrfToken: req.csrfToken()
+      }).then((sumEva) => {
+        const sumPostEvMap = new Map();
+        sumEva.forEach((postEva) => {
+          sumPostEvMap.set(postEva.postId, postEva.dataValues['count']);
+          console.log(postEva.postId + 'の「いいね」の数は' + postEva.dataValues['count']);
         });
+        if (req.user) {
+          return Evaluation.findAll({
+            where: {
+              fixtureId: fixture.fixtureId,
+              userId: req.user.provider + req.user.id
+            }
+          }).then((evaluations) => {
+            // forEach でselfEvaluationMapに{[postId:evaluation]…}入れていく
+            // selfEvaluationMap.set(e.postId , e.evaluation)
+            evaluations.forEach((e) => {
+              selfEvaluationMap.set(e.postId, e.evaluation);
+              console.log('（評価済み）投稿' + e.postId + 'へあなたの評価は' + e.evaluation);
+            });
+            // storedPostsをforEachで回して、
+            // const e = selfEvaluationMap.get(p.id) || 0
+            // rendSelfEvaluationMap.set(p.id , e)
+            storedPosts.forEach((p) => {
+              const e = selfEvaluationMap.get(p.postId) || false;
+              rendSelfEvaluationMap.set(p.postId, e);
+              console.log('（全投稿）投稿' + p.postId + 'へあなたの評価は' + e);
+            });
+            // プラスするもの＝＞　rendSelfEvaluationMap , sumPostEvMap
+
+            res.render('match', {
+              title: fixtureTitle,
+              user: req.user,
+              fixture: fixture,
+              posts: storedPosts,
+              SelfEvaMap: rendSelfEvaluationMap,
+              sumPostEvMap: sumPostEvMap,
+              admin: config.admin,
+              //  csrfToken: req.csrfToken()
+            });
+          });
+        } else {
+          res.render('index', {
+            title: 'Top Page',
+            user: req.user,
+            fixture: fixture,
+            posts: storedPosts,
+            //SelfEvaMap: rendSelfEvaluationMap,
+            sumPostEvMap: sumPostEvMap,
+            admin: config.admin,
+            //  csrfToken: req.csrfToken()
+          });
+        }
+
       });
-     }else{
-      res.render('index', {
-        title: 'Top Page',
-        user: req.user,
-        fixture: fixture,
-        posts: storedPosts,
-        //SelfEvaMap: rendSelfEvaluationMap,
-        sumPostEvMap: sumPostEvMap,
-        admin: config.admin,
-      //  csrfToken: req.csrfToken()
-      });
-     }
-     
-    });
 
     } else {
       const err = new Error('指定された試合は見つかりません');
@@ -142,15 +142,15 @@ router.get('/:fixtureId', function (req, res, next) {
   })
 });
 
-router.post('/:fixtureId/posts' , (req,res ,next) => {
-// ここにコメント処理
+router.post('/:fixtureId/posts', (req, res, next) => {
+  // ここにコメント処理
   const userId = req.user.provider + req.user.id;
   Post.create({
-    fixtureId:req.params.fixtureId,
-    postedBy:userId,
-    content:req.body.content
+    fixtureId: req.params.fixtureId,
+    postedBy: userId,
+    content: req.body.content
   }).then(() => {
-    res.redirect(302, '/fixtures/'+req.params.fixtureId);
+    res.redirect(302, '/fixtures/' + req.params.fixtureId);
   })
 });
 
@@ -169,14 +169,15 @@ router.post('/posts', (req, res, next) => {
   if (parseInt(req.query.delete) === 1) {
     Post.findOne({
       where: {
-        postId:req.body.postId
+        postId: req.body.postId
       }
     }).then((post) => {
       if (post && (isMine(req, post) || isAdmin(req, post))) {
         deletePostAggregate(req.body.postId, () => {
-          res.redirect('/');})
-          // 以前いたURLにリダイレクトする
-      }else{
+          res.redirect('/');
+        })
+        // 以前いたURLにリダイレクトする
+      } else {
         const err = new Error('指定された投稿がない、または、削除する権限がありません。');
         err.status = 404;
         next(err);
@@ -199,18 +200,18 @@ router.post('/posts', (req, res, next) => {
 
 function deletePostAggregate(id, done, err) {
   Post.findByPk(id).then((post) => {
-      //いいねの削除
-      Evaluation.findAll({
-        where:{ postId:id }
-      }).then((evaluations) => {
-        const promises = evaluations.map((e) => { return e.destroy(); });
-        return Promise.all(promises);
-      }).then(() => {
-        return post.destroy();
-      }).then(() => {
+    //いいねの削除
+    Evaluation.findAll({
+      where: { postId: id }
+    }).then((evaluations) => {
+      const promises = evaluations.map((e) => { return e.destroy(); });
+      return Promise.all(promises);
+    }).then(() => {
+      return post.destroy();
+    }).then(() => {
       if (err) return done(err); // ??いらんやろ。これテスト用や！
       done();
-      });
+    });
   });
 }
 
