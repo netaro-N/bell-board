@@ -34,8 +34,8 @@
     - [x] webpackの導入
     - [x] evのデータ、インデックス化
     - [x] route/evaluations.jsにしたほうが楽？
-    - [ ] [entry.js ,fixtures.js ,index.js]
-    - [ ] [match.pug ,index.pug]
+    - [x] [entry.js ,fixtures.js ,index.js]
+    - [x] [match.pug ,index.pug]
   - [ ] admin機能
   - [ ] 削除について：以前いたURLにリダイレクトするようにする
 

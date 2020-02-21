@@ -38,13 +38,13 @@ block content
           div.col-sm-12.col-lg-4.my-2
             div.card.h-100
               div.card-header
-                //- - var isPostedByAdmin = (post.postedBy === admin)
+                - var isPostedByAdmin = (post.postedBy === admin)
                 - var evaluations = sumPostEvMap.get(post.postId) || 0;
-                //- if isPostedByAdmin
+                if isPostedByAdmin
                   p 投稿者： 管理人　★
-                  img(src=`${post.user.thumbUrl}` width="50px")
-                //- else
-                p 投稿者：#{post.user.username}さん
+                //-  img(src=`${post.user.thumbUrl}` width="50px")
+                else
+                  p 投稿者：#{post.user.username}さん
                 //- img(src=`${post.user.thumbUrl}`)
               div.card-body
                 p(class=post.postedBy postId=post.postId style="white-space:pre-wrap;") #{post.content}
