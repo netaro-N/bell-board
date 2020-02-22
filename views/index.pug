@@ -23,7 +23,7 @@ block content
       p #{user.username}さんこんにちは
       //img(src=`${user.photos[0].value}` width="50" height="50")
       h2 新規投稿
-      form(method="post" action=`/fixtures/${fixture.fixtureId}/posts/`)
+      form(method="post" action=`/fixtures/${fixture.fixtureId}/posts?&from=1`)
         input(type="hidden" name="_csrf" value!=csrfToken)
         div
           textarea(name="content" cols=40 rows=4)
@@ -63,7 +63,7 @@ block content
                     data-user-evaluation=string).evaluation-button いいねボタン
                   - var isDeletable = (userId === post.postedBy || userId === admin)
                   if isDeletable
-                    form(method="post" action=`/fixtures/${fixture.fixtureId}/posts/${post.postId}?delete=1`)
+                    form(method="post" action=`/fixtures/${fixture.fixtureId}/posts/${post.postId}?delete=1&from=1`)
                       //- input(type="hidden" name="_csrf" value!=csrfToken)
                       input(type="hidden")
                       button(type="submit" onclick="return confirm(`投稿を削除します\nよろしいですね？`);") 削除

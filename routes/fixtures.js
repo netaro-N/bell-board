@@ -150,7 +150,11 @@ router.post('/:fixtureId/posts', (req, res, next) => {
     postedBy: userId,
     content: req.body.content
   }).then(() => {
-    res.redirect('/fixtures/' + req.params.fixtureId);
+    if(parseInt(req.query.from) === 1) {
+    res.redirect('/');
+    }else{
+          res.redirect('/fixtures/' + req.params.fixtureId);
+    }
   })
 });
 
@@ -174,7 +178,11 @@ router.post('/:fixtureId/posts/:postId', (req, res, next) => {
     }).then((post) => {
       if (post && (isMine(req, post) || isAdmin(req, post))) {
         deletePostAggregate(req.params.postId, () => {
+          if (parseInt(req.query.from) === 1) {
+            res.redirect('/');
+          }else{
           res.redirect('/fixtures/' + req.params.fixtureId);
+          }
         })
         // 以前いたURLにリダイレクトする
       } else {
