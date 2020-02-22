@@ -63,7 +63,7 @@ block content
                     data-user-evaluation=string).evaluation-button いいねボタン
                   - var isDeletable = (userId === post.postedBy || userId === admin)
                   if isDeletable
-                    form(method="post" action="/fixtures/posts?delete=1")
+                    form(method="post" action=`/fixtures/${fixture.fixtureId}/posts/${post.postId}?delete=1`)
                       //- input(type="hidden" name="_csrf" value!=csrfToken)
-                      input(type="hidden" name="postId" value=post.postId)
+                      input(type="hidden")
                       button(type="submit" onclick="return confirm(`投稿を削除します\nよろしいですね？`);") 削除

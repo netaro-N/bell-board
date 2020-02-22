@@ -150,7 +150,7 @@ router.post('/:fixtureId/posts', (req, res, next) => {
     postedBy: userId,
     content: req.body.content
   }).then(() => {
-    res.redirect(302, '/fixtures/' + req.params.fixtureId);
+    res.redirect('/fixtures/' + req.params.fixtureId);
   })
 });
 
@@ -165,16 +165,16 @@ function isAdmin(req, post) {
   return post && config.admin === userId;
 }
 
-router.post('/posts', (req, res, next) => {
+router.post('/:fixtureId/posts/:postId', (req, res, next) => {
   if (parseInt(req.query.delete) === 1) {
     Post.findOne({
       where: {
-        postId: req.body.postId
+        postId: req.params.postId
       }
     }).then((post) => {
       if (post && (isMine(req, post) || isAdmin(req, post))) {
-        deletePostAggregate(req.body.postId, () => {
-          res.redirect('/');
+        deletePostAggregate(req.params.postId, () => {
+          res.redirect('/fixtures/' + req.params.fixtureId);
         })
         // 以前いたURLにリダイレクトする
       } else {
