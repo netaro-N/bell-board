@@ -4,7 +4,7 @@ const assert = require('assert');
 const app = require('../app');
 const passportStub = require('passport-stub');
 const Fixture = require('../models/fixture');
-const deleteFixture = require('../routes/manage').deleteFixture;
+const deleteFixtureAggregate = require('../routes/manage').deleteFixtureAggregate;
 
 describe('"/login" Routerオブジェクトのテスト', () => {
   before(() => {
@@ -62,7 +62,7 @@ describe('"/manage" のテスト', () => {
           .expect(/Realhoge/)
           .expect(/FChoge/)
           .expect(200)
-          .end((err, res) => { deleteFixture(testFixtureId, done, err); });//作成した試合を削除
+          .end((err, res) => { deleteFixtureAggregate(testFixtureId, done, err); });//作成した試合を削除
       });
   });
 });
@@ -83,7 +83,7 @@ describe('"/manage/:fixtureId?edit=1" のテスト', () => {
               Fixture.findByPk(testEditFixtureId).then((f) => {
                 assert.equal(f.description, 'hugaリーグ');
                 assert.equal(f.homeScore, '3');
-                deleteFixture(testEditFixtureId, done, err);
+                deleteFixtureAggregate(testEditFixtureId, done, err);
               });
             });
       });

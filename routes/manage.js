@@ -26,10 +26,10 @@ router.get('/', function (req, res, next) {
 
 
 /* GET new page. */
-router.get('/new', function(req, res, next) {
+router.get('/new', function (req, res, next) {
   //　ここに、新規ページへの実装をする
-  res.render('new', { 
-    user:req.user
+  res.render('new', {
+    user: req.user
   });
 });
 
@@ -46,7 +46,7 @@ router.get('/:fixtureId', function (req, res, next) {
       console.log(fixture.formattedDate);
       res.render('edit', {
         title: '編集ページです',
-        user:req.user,
+        user: req.user,
         fixture: fixture
       });
     } else {
@@ -127,7 +127,7 @@ router.post('/edit', function (req, res, next) {
 router.post('/:fixtureId', (req, res, next) => {
   const fixtureDate = new Date(req.body.fixtureDate);
   const formattedDate = moment(fixtureDate).format("YYYY/MM/DD HH:mm");
-  console.log(fixtureDate+' → '+formattedDate);
+  console.log(fixtureDate + ' → ' + formattedDate);
   console.log('確認しました');
   Fixture.findOne({
     where: {
@@ -135,30 +135,30 @@ router.post('/:fixtureId', (req, res, next) => {
     }
   }).then((f) => {
     if (f) {
-      if (parseInt(req.query.edit) === 1){
-      f.update({
-        fixtureId: f.fixtureId,
-        fixtureDate: formattedDate,
-        description: req.body.description,
-        location: req.body.location,
-        homeTeam: req.body.homeTeam,
-        awayTeam: req.body.awayTeam,
-        homeScore: req.body.homeScore,
-        awayScore: req.body.awayScore
-      }).then((fixture) => {
-        res.redirect('/fixtures/' + fixture.fixtureId);
-      });
-    } else if (parseInt(req.query.delete) ===1 ){
-      console.log('get!!' + req.params.fixtureId);
-      deleteFixture(req.params.fixtureId, () => { // １：ID　２：done関数
-        res.redirect('/');
-      });
+      if (parseInt(req.query.edit) === 1) {
+        f.update({
+          fixtureId: f.fixtureId,
+          fixtureDate: formattedDate,
+          description: req.body.description,
+          location: req.body.location,
+          homeTeam: req.body.homeTeam,
+          awayTeam: req.body.awayTeam,
+          homeScore: req.body.homeScore,
+          awayScore: req.body.awayScore
+        }).then((fixture) => {
+          res.redirect('/fixtures/' + fixture.fixtureId);
+        });
+      } else if (parseInt(req.query.delete) === 1) {
+        console.log('get!!' + req.params.fixtureId);
+        deleteFixtureAggregate(req.params.fixtureId, () => { // １：ID　２：done関数
+          res.redirect('/');
+        });
+      } else {
+        const err = new Error('不正なリクエストです');
+        err.status = 400;
+        next(err);
+      }
     } else {
-      const err = new Error('不正なリクエストです');
-      err.status = 400;
-      next(err);
-    }
-  }else {
       const err = new Error('指定された予定がありません');
       err.status = 404;
       next(err);
@@ -166,12 +166,12 @@ router.post('/:fixtureId', (req, res, next) => {
   });
 })
 
-function deleteFixture (fixtureId, done, err) {
+function deleteFixtureAggregate(fixtureId, done, err) {
   Fixture.findByPk(fixtureId).then((f) => { f.destroy(); });
   if (err) return done(err);
   done();
 }
 
-router.deleteFixture = deleteFixture;
+router.deleteFixtureAggregate = deleteFixtureAggregate;
 
 module.exports = router;

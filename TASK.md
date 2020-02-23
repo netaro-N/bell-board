@@ -37,10 +37,11 @@
     - [x] [entry.js ,fixtures.js ,index.js]
     - [x] [match.pug ,index.pug]
   - [x] admin機能
-  - [ ] 削除について：以前いたURLにリダイレクトするようにする　⇒　valueでpostIdやめて、fixtureIdとpostIdをurlで送る。で、fixtureIdにリダイレクト！！
-- [ ] 削除後など。戻るボタンを押した時に、不具合あり。
+  - [x] 削除について：以前いたURLにリダイレクトするようにする　⇒　valueでpostIdやめて、fixtureIdとpostIdをurlで送る。で、fixtureIdにリダイレクト！！
+- [x] 削除後など。戻るボタンを押した時に、不具合あり。⇒結果的に、クエリを用いてトップページに戻るか否かを場合分けした。
 
 - [ ] 前／後の試合リンク
+- [ ] 試合内容の全てを削除する
 
 ### その他随時施工
 - [ ] セキュリティ対策

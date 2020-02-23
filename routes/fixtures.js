@@ -150,10 +150,10 @@ router.post('/:fixtureId/posts', (req, res, next) => {
     postedBy: userId,
     content: req.body.content
   }).then(() => {
-    if(parseInt(req.query.from) === 1) {
-    res.redirect('/');
-    }else{
-          res.redirect('/fixtures/' + req.params.fixtureId);
+    if (parseInt(req.query.from) === 1) {
+      res.redirect('/');
+    } else {
+      res.redirect('/fixtures/' + req.params.fixtureId);
     }
   })
 });
@@ -180,8 +180,8 @@ router.post('/:fixtureId/posts/:postId', (req, res, next) => {
         deletePostAggregate(req.params.postId, () => {
           if (parseInt(req.query.from) === 1) {
             res.redirect('/');
-          }else{
-          res.redirect('/fixtures/' + req.params.fixtureId);
+          } else {
+            res.redirect('/fixtures/' + req.params.fixtureId);
           }
         })
         // 以前いたURLにリダイレクトする
