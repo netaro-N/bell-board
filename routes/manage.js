@@ -5,6 +5,8 @@ const moment = require('moment-timezone');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const Fixture = require('../models/fixture');
+const Evaluation = require('../models/evaluation');
+const Post = require('../models/post');
 const csvParse = require('csv-parse/lib/sync'); // requiring sync module 同期でパースする
 
 /* GET manage page. */
@@ -167,9 +169,25 @@ router.post('/:fixtureId', (req, res, next) => {
 })
 
 function deleteFixtureAggregate(fixtureId, done, err) {
-  Fixture.findByPk(fixtureId).then((f) => { f.destroy(); });
-  if (err) return done(err);
-  done();
+
+  Evaluation.findAll({
+    where: { fixtureId: fixtureId }
+  }).then((evaluations) => {
+    const promises = evaluations.map((a) => { return a.destroy(); });
+    return Promise.all(promises);
+  }).then(() => {
+    return Post.findAll({
+      where: { fixtureId: fixtureId }
+    });
+  }).then((posts) => {
+    const promises = posts.map((p) => { return p.destroy(); });
+    return Promise.all(promises);
+  }).then(() => {
+    return Fixture.findByPk(fixtureId).then((f) => { f.destroy(); });
+  }).then(() => {
+    if (err) return done(err);
+    done();
+  });
 }
 
 router.deleteFixtureAggregate = deleteFixtureAggregate;
