@@ -116,6 +116,12 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:fixtureDate/last', (req, res, next) => {
+  // moment で整形。そうしないとsequelizeで比較できない？
+  console.log("出力結果");
+  console.log(req.params.fixtureDate); // [Sat Dec 07 2019 14:00:00 GMT+0000 (UTC)]
+  console.log(new Date(req.params.fixtureDate)); // [2019-12-07T14:00:00.000Z]
+  console.log(moment(new Date(req.params.fixtureDate))); //  [moment("2019-12-07T14:00:00.000")]
+  // const testDate = new Date(req.params.fixtureDate);  こちらのtestDateでもおｋですが、念の為moment を利用しておきます。
   const originDate = moment(new Date(req.params.fixtureDate));
   Fixture.findOne({
     where: {
