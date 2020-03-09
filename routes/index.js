@@ -115,4 +115,40 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.get('/:fixtureDate/last', (req, res, next) => {
+  const originDate = moment(new Date(req.params.fixtureDate));
+  Fixture.findOne({
+    where: {
+      fixtureDate: { [Op.lt]: originDate }
+    },
+    order: [['"fixtureDate"', 'DESC']]
+  }).then((fixture) => {
+    if (fixture) {
+      res.redirect(`/fixtures/${fixture.fixtureId}`);
+    } else {
+      const err = new Error('これより前の試合はありません');
+      err.status = 404;
+      next(err);
+    }
+  })
+});
+
+router.get('/:fixtureDate/next', (req, res, next) => {
+  const originDate = moment(new Date(req.params.fixtureDate));
+  Fixture.findOne({
+    where: {
+      fixtureDate: { [Op.gt]: originDate }
+    },
+    order: [['"fixtureDate"', 'ASC']]
+  }).then((fixture) => {
+    if (fixture) {
+      res.redirect(`/fixtures/${fixture.fixtureId}`);
+    } else {
+      const err = new Error('これより後の試合はありません');
+      err.status = 404;
+      next(err);
+    }
+  })
+});
+
 module.exports = router;
